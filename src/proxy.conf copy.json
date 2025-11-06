@@ -1,0 +1,9 @@
+{
+  "/mymandado/api": {
+    "target": "http://93.127.202.223:5003/",
+    "secure": true,
+    "pathRewrite":{
+      "^/mymandado/api":"/api"
+    }
+  }
+}

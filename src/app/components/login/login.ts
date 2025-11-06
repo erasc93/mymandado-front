@@ -1,0 +1,30 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthClient } from '@services/auth-client';
+import { Button, ButtonModule } from 'primeng/button';
+
+@Component({
+  selector: 'mnd-login',
+  imports: [CommonModule,FormsModule, ButtonModule,RouterModule],
+  templateUrl: './login.html',
+  styleUrl: './login.scss',
+})
+export class Login {
+  protected username= signal<string>("");
+  router=inject(Router)
+  private _auth=inject(AuthClient);
+  login() {
+    const
+    username = this.username(),
+    password = null;
+    this._auth.Authenticate(username, password)
+    .subscribe({
+      complete: () => {
+        this.router.navigate(['/mymandado', `${username}`])
+      }
+    });
+  }
+}
+export interface loginData { username: string; }

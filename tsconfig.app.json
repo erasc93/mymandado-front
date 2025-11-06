@@ -7,7 +7,10 @@
     "types": [],
     "baseUrl":"src",
     "paths":{
-      "@shared/*":["app/shared/*"]
+      "@services/*":["app/services/*"],
+      "@models/*":["app/core/models*"],
+      "@viewmodels/*":["app/core/viewmodels/*"],
+      "@components/*":["app/components/*"],
     }
   },
   "include": [

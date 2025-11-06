@@ -1,0 +1,43 @@
+@if(isvisible){
+   <div class="page-container">
+      <form class="centered-form" #productForm="ngForm" (ngSubmit)="onsubmit(productForm)">
+
+         <div class="form-row">
+            <label for="product">Nom du produit</label>
+            <input type="text" id="product" name="name" pInputText required [(ngModel)]="item().namen"/>
+         </div>
+         <div class="form-row">
+            <label for="quantite">Quantité</label>
+            <input type="number" id="quantite" name="quantity" pInputText [(ngModel)]="item().quantity"/>
+            <p-select name="unit" [(ngModel)]="item().unity" [options]="units" placeholder="Unité"></p-select>
+         </div>
+         <div class="form-buttons">
+            <p-button label="Cancel" severity="warn" (click)="cancel()"></p-button>
+            <p-button type="submit" label="Save" severity="success"></p-button>
+         </div>
+
+      </form>
+   </div>
+}
+
+<!-- <p-button icon="pi pi-home" severity="secondary"/>
+<p-button icon="pi pi-globe" severity="secondary"/>
+<p-button icon="pi pi-trash" severity="secondary"/>
+<p-button icon="pi pi-user" severity="secondary"/>
+<p-button icon="pi pi-ellipsis-v" severity="secondary"/>
+<p-button icon="pi pi-pencil" severity="secondary"/>
+<p-button icon="pi pi-search" severity="secondary"/> -->
+<!-- <p-button  severity="secondary"/>
+<p-button  severity="secondary"/>
+<p-button  severity="secondary"/>
+<p-button  severity="secondary"/>
+<p-button  severity="secondary"/>
+<p-button  severity="secondary"/> -->
+<!-- <p-button icon="pi pi-plus" severity="secondary"/> -->
+<!-- <p-button 
+icon="pi pi-plus" 
+(click)="setVisibility(true)" 
+label="Ajouter" 
+severity="info" /> -->
+<!-- </div> -->
+

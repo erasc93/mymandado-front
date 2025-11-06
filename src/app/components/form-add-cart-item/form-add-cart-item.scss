@@ -1,0 +1,55 @@
+.p-dropdown-panel {
+  overflow: visible;
+}
+
+
+
+/* CSS */
+.page-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around; /* centre horizontalement */
+  align-items: start;     /* centre verticalement */
+  // margin-top: -30%;
+  margin-top: 30px;
+  min-height: 100vh;       /* toute la hauteur de l'écran */
+  max-width: 100%;
+  // background-color: #f0f0f0;
+}
+
+.centered-form {
+  padding: 20px;
+  // background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px;
+  max-width: 100%;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 10px;
+}
+
+.form-row label {
+  width: 120px;            /* largeur du label */
+  font-weight: bold;
+}
+
+.form-row input,
+.form-row p-select {
+  flex: 1;                 /* prend le reste de l'espace */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#quantite{
+  width:60px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}

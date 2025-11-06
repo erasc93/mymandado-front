@@ -1,0 +1,74 @@
+<div style=" display:flex; flex-direction:row; justify-content:space-between; ">
+   @if(this.doneonly()){
+      <p-button icon="pi pi-eye" (click)="switchView()" severity="contrast" />
+   } 
+   @else{
+      <p-button icon="pi pi-eye-slash" (click)="switchView()" severity="contrast" />
+   }
+   
+   <p-button 
+   icon="pi pi-plus" 
+   (click)="formAddVisible=true" 
+   label="Ajouter" 
+   severity="info" />
+</div>
+
+
+<mnd-form-add-cart-item 
+[(isvisible)]="formAddVisible" 
+(submit)="addItemSubmit($event)" />
+<mnd-form-add-cart-item 
+[(isvisible)]=updateFormVisible 
+(submit)=updateItemSubmit($event) 
+[item]=updatingItem()/>
+
+@if(!formAddVisible && !updateFormVisible){
+   
+   <div class=table-container>
+      <table>
+         <colgroup>
+            <col style="width: 10%; ">
+            <col style="width: 20%;">
+            <col style="width: 55%;">
+            <col style="width: 15%;">
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+               <th></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+            @for(item of products() ; track item){
+               <tr >
+                  <td>
+                     <p-checkbox  inputId="cart_item"  [ngModel]="item.isdone" (onChange)="toogle($event.checked,item)"  [binary]="true" [disabled]="loading()" />
+                     <label for="cart_item">  </label>
+                  </td>
+                  <td style="text-align:end;">{{item.quantity}}  {{item.product.unit}}</td>
+                  <td> {{item.product.name}}  </td>
+                  <td> 
+                     @if(!doneonly()){
+                        <p-button 
+                        icon="pi pi-pencil"
+                        class="p-button-text"
+                        (onClick)="showUpdateForm(item)"
+                        /> 
+                     } @else{
+                        <p-button 
+                        icon="pi pi-trash"
+                        severity="danger"
+                        class="p-button-text"
+                        (onClick)="delete(item.product)"
+                        /> 
+                     }
+                  </td>
+               </tr>
+            }
+         </tbody>
+      </table>
+      
+   </div>
+}

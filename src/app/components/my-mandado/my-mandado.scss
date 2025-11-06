@@ -1,0 +1,83 @@
+// .mnd-table{
+//    border: solid turquoise;
+//    display: grid;
+//    .mnd-header{
+//       border: solid turquoise;
+//       display: flex;
+//       flex-direction: row;
+//       justify-content: space-around;
+//       .tab{
+//          margin: 3pt;
+//       }
+//    }
+// }
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+//   background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 100%; /* prend toute la largeur sur mobile */
+  box-sizing: border-box;
+  font-size: 1rem; /* texte lisible */
+}
+
+.product-form label {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.product-form input,
+.product-form select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.quantity-group {
+  display: flex;
+  flex-direction: row; /* les deux champs côte à côte */
+  gap: 0.5rem;
+}
+
+.quantity-group input {
+  flex: 2; /* le champ quantité prend plus de place */
+}
+
+.quantity-group select {
+  flex: 1; /* le select est plus petit */
+}
+
+.product-form button {
+  background: #0078d7;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.product-form button:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+/* Optionnel : s’adapte aux écrans très petits */
+@media (max-width: 360px) {
+  .quantity-group {
+    flex-direction: column;
+  }
+
+  .quantity-group input,
+  .quantity-group select {
+    width: 100%;
+  }
+}
