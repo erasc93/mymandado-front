@@ -4,6 +4,7 @@ import { ProductsState } from './products-state';
 import { map, of, pipe, tap } from 'rxjs';
 import { CartItem } from '@viewmodels/CartItem';
 import { Product } from '@viewmodels/Product';
+import { item } from '@primeuix/themes/aura/breadcrumb';
 
 @Injectable()
 export class ProductsClient {
@@ -29,10 +30,7 @@ export class ProductsClient {
   
   public RefreshValues() {
     this._http.get<CartItem[]>(this._urlCart)
-    // of<CartItem[]>([
-    //   { id:3, quantity: 3,isdone:true ,product:{ id: 10, name:"fromage",unit: unit.pack }},
-    // ])
-    .pipe(
+    .pipe(map(items=>items.sort((a,b)=>a.product.name.localeCompare(b.product.name)))
     )
     .subscribe(
       {

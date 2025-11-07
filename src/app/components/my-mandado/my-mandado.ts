@@ -8,10 +8,11 @@ import { CartItem } from '@viewmodels/CartItem';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 import { CartResolverData } from '@services/cart-resolver';
+import { Button } from "primeng/button";
 
 @Component({
   selector: 'mnd-my-mandado',
-  imports: [ProductList,CommonModule,FormsModule,RouterModule],
+  imports: [ProductList, CommonModule, FormsModule, RouterModule ],
   templateUrl: './my-mandado.html',
   styleUrl: './my-mandado.scss',
 })

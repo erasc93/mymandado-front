@@ -5,6 +5,7 @@
    @else{
       <p-button icon="pi pi-eye-slash" (click)="switchView()" severity="contrast" />
    }
+   <span style="display:flex; flex-direction:row; justify-content:flex-start; align-items:center;"> <p-button (click)="logout()" severity="secondary">logout : {{user()}}</p-button> <h4></h4></span>
    
    <p-button 
    icon="pi pi-plus" 

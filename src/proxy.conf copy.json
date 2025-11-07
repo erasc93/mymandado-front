@@ -1,4 +1,4 @@
-{
+[{
   "/mymandado/api": {
     "target": "http://93.127.202.223:5003/",
     "secure": true,
@@ -6,4 +6,24 @@
       "^/mymandado/api":"/api"
     }
   }
-}
+},
+{
+  "/mymandado/api": {
+    "target": "https://localhost:7072/",
+    "secure": false,
+    "changeOrigin":false,
+    "pathRewrite":{
+      "^/mymandado/api":"/api"
+    }
+  }
+},
+{
+  "/mymandado/api": {
+    "target": "http://localhost:5000/",
+    "secure": false,
+    "changeOrigin":false,
+    "pathRewrite":{
+      "^/mymandado/api":"/api"
+    }
+  }
+  }]

@@ -8,10 +8,10 @@ export class AuthClient {
   private _loggedIn$ = new BehaviorSubject<boolean>(false);
   public readonly loggedIn$ = this._loggedIn$.asObservable();
   
-  private readonly apiurl = 'mymandado/api';
+  private readonly apiurl = 'mymandado/api/users';
   Authenticate(username: string , password: string|null) : Observable<tokentype>{
     const body = { username:username, password:password };
-    return this._http.post<tokentype>(`${this.apiurl}/auth/token`,body)
+    return this._http.post<tokentype>(`${this.apiurl}/login`,body)
       .pipe(
       tap(x => this.SetToken(x.token)),
       tap(isValid=>this._loggedIn$.next(true)),
@@ -20,7 +20,6 @@ export class AuthClient {
   private SetToken(token: string) {
     sessionStorage.setItem('token', token);
   }
-  
 }
 export interface tokentype{
   token: string;

@@ -1,18 +1,16 @@
-import { ChangeDetectorRef, Component, computed, ElementRef, inject, input, NgModule, NgZone, OnInit, signal } from '@angular/core';
+import {  Component, computed, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
+import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
-import { Button, ButtonModule } from "primeng/button";
-import { Dialog, DialogModule } from 'primeng/dialog';
+import { ButtonModule } from "primeng/button";
 import { InputTextModule } from 'primeng/inputtext';
-import { filter } from 'rxjs';
 import { ProductsState } from '@services/products-state';
 import { FormAddCartItem, itemForm } from '@components/form-add-cart-item/form-add-cart-item';
 import { ProductsClient } from '@services/products-client';
 import { Product } from '@viewmodels/Product';
 import { unit } from '@models//unit';
 import { CartItem } from '@viewmodels/CartItem';
-import { CartResolverData } from '@services/cart-resolver';
+import { Router  } from '@angular/router';
 
 @Component({
   selector: 'mnd-product-list',
@@ -22,6 +20,14 @@ import { CartResolverData } from '@services/cart-resolver';
   styleUrl: './product-list.scss',
 })
 export class ProductList {
+  private _router :Router = inject(Router);
+  // constructor(private _router:Router){}
+  logout() {
+    console.log("whyyy?");
+    this.productsState.products.set([]);
+    this._router.navigateByUrl('');
+    // this._router.navigate(['login']);
+  }
   protected delete(product: Product) {
     this._cartClient.Delete(product);
   }
