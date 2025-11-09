@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthClient } from '@services/auth-client';
+import { AuthClient } from 'app/authentication/auth-client';
 import { Button, ButtonModule } from 'primeng/button';
 
 @Component({
@@ -11,8 +11,11 @@ import { Button, ButtonModule } from 'primeng/button';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
-  protected username= signal<string>("");
+export class Login implements OnInit{
+  ngOnInit(): void {
+    this.login();
+  }
+  protected username= signal<string>('manu');
   router=inject(Router)
   private _auth=inject(AuthClient);
   login() {

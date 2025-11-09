@@ -9,8 +9,9 @@
     "paths":{
       "@services/*":["app/services/*"],
       "@models/*":["app/core/models*"],
-      "@viewmodels/*":["app/core/viewmodels/*"],
+      "@viewmodels/*":["app/viewmodels/*"],
       "@components/*":["app/components/*"],
+      "@cart/*":["app/cart/*"],
     }
   },
   "include": [

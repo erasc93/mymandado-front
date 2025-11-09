@@ -1,10 +1,10 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { CartItem } from '@viewmodels/CartItem';
+import { CartItem } from 'app/viewmodels/CartItem';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsState {
+export class CartItemsState {
   public products:WritableSignal<CartItem[]>= signal<CartItem[]>([]);
   public errorMessage = signal('');
 }

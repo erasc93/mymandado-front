@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, input, Output, output, signal, WritableSignal } from '@angular/core';
 import { FormsModule, NgForm, NgModel, NgModelGroup } from '@angular/forms';
-import { unit } from '@models//unit';
-import { ProductsClient } from '@services/products-client';
+import { unit } from 'app/viewmodels/unit';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import {  InputGroupModule } from 'primeng/inputgroup';
@@ -10,6 +9,7 @@ import {  InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { CartItemsClient } from '@cart/cart-items-client'
 
 @Component({
   selector: 'mnd-form-add-cart-item',
@@ -17,7 +17,7 @@ import { SelectModule } from 'primeng/select';
     , InputGroupModule, InputGroupAddonModule, InputTextModule, SelectModule, InputNumberModule,
     FormsModule 
   ],
-  providers:[ProductsClient],
+  providers:[CartItemsClient],
   templateUrl: './form-add-cart-item.html',
   styleUrl: './form-add-cart-item.scss',
 })
