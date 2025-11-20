@@ -3,12 +3,12 @@
       <form class="centered-form" #productForm="ngForm" (ngSubmit)="MySubmit(productForm)">
          <div class="form-row">
             <label for="product">Nom du produit</label>
-            <input type="text" id="product" name="name" pInputText required [(ngModel)]="item().namen"/>
+            <input disabled="true" type="text" id="product" name="name" pInputText required [(ngModel)]="item().namen"/>
          </div>
          <div class="form-row">
             <label for="quantite">Quantité</label>
             <input type="number" id="quantite" name="quantity" pInputText [(ngModel)]="item().quantity"/>
-            <p-select name="unit" [(ngModel)]="item().unity" [options]="units" placeholder="Unité"></p-select>
+            <p-select disabled="true" name="unit" [(ngModel)]="item().unity" [options]="units" placeholder="Unité"></p-select>
          </div>
          <div class="form-buttons">
             <p-button label="Cancel" severity="warn" (click)="cancel()"></p-button>
@@ -39,4 +39,5 @@ icon="pi pi-plus"
 label="Ajouter" 
 severity="info" /> -->
 <!-- </div> -->
+
 

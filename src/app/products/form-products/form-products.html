@@ -1,0 +1,20 @@
+@if(isvisible()){
+   <div class="page-container">
+      <form class="centered-form" #productForm="ngForm" (ngSubmit)="MySubmit(productForm)">
+         <div class="form-row">
+            <label for="product">Nom du produit</label>
+            <input type="text" id="product" name="name" pInputText required [(ngModel)]="item().namen"/>
+         </div>
+         <div class="form-row">
+            <label for="unit">Unité</label>
+            <p-select id="unit" name="unit" [(ngModel)]="item().unity" [options]="units" placeholder="Unité"></p-select>
+         </div>
+         <div class="form-buttons">
+            <p-button label="Cancel" severity="warn" (click)="Cancel()"></p-button>
+            <p-button type="submit" label="Save" severity="success"></p-button>
+         </div>
+      </form>
+   </div>
+}
+
+

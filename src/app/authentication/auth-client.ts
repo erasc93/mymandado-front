@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, delay, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject,  Observable,  tap } from 'rxjs';
 import { tokentype } from './tokentype';
 
 @Injectable({providedIn:'root'})
@@ -13,10 +13,9 @@ export class AuthClient {
   private readonly apiurl = 'mymandado/api/users/login';
   Authenticate(username: string , password: string|null) : Observable<tokentype>{
     const body = { username:username, password:password };
-    return this._http.post<tokentype>(`${this.apiurl}`,body)
-      .pipe(
+    return this._http.post<tokentype>(`${this.apiurl}`,body).pipe(
       tap(x => this.SetToken(x.token)),
-      tap(isValid=>this._loggedIn$.next(true)),
+      tap(token=>this._loggedIn$.next(true)),
     );
   }
   private SetToken(token: string) {

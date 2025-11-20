@@ -10,7 +10,7 @@ export const routes: Routes = [
    {
       path: 'mymandado/:username',
       loadComponent: () => import('app/my-mandado-page/my-mandado')
-         .then(m => m.MyMandado),
+      .then(m => m.MyMandado),
       canActivate:[loginGuard],
       resolve: { cartitems: cartResolver },
    },
@@ -18,8 +18,9 @@ export const routes: Routes = [
       path: 'login',
       loadComponent:()=>import('app/authentication/login-page/login').then(m=>m.Login),
       children: [
-      
-         { path: '', component: Login },
-   ]},
-   {path:'**',component:Notfound}
-];
+         
+         { path: '', component: Login , pathMatch:'full'},
+      ]},
+      {path:'**',component:Notfound}
+   ];
+   

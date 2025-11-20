@@ -3,39 +3,39 @@ import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { item } from '@primeuix/themes/aura/breadcrumb';
 import { Product } from '@viewmodels/Product';
+import { StateMachine } from '@cart/cart-items-state';
+import { Observable, tap } from 'rxjs';
 
 
-@Injectable()
+@Injectable({providedIn:'root'})
 export class ProductsClient{
   
   private _urlProducts = 'mymandado/api/products';
   private _http = inject(HttpClient);
+  private _state = inject(StateMachine);
   public isLoading = signal(false); 
-  public Update(product: Product): void{
+  // --- --- ---
+  public FetchProducts ():Observable<Product[]> {
     
-    this._http.put<Product>(this._urlProducts, product).subscribe({
-      next: () => console.log("emited"),
-      complete: () => console.log(`${item} updated`),
-      error: error => {
-        console.log(error);
-      }
-    })
+    return this._http.get<Product[]>(this._urlProducts);
   }
-  public Delete(product: Product) {
-    this._http.delete<Product>(`${this._urlProducts}/${product.id}`)
-    .subscribe({
-      next: () => console.log("emited"),
-      complete: () => this.RefreshState(),
-      error: error => {
-        console.log(error);
-        this.isLoading.set(true);
-        this.RefreshState();
-      }
-    })
+  public Update(product: Product):Observable<void> {
+    return this._http.put<void>(this._urlProducts, product)
+    .pipe( tap(()=>this._state.Update(product)))
   }
-  private RefreshState() {
-    // refresh products state machine;
+  public Delete(product: Product) :Observable<void>{
+    return this._http.delete<void>(`${this._urlProducts}/${product.id}`)
+      .pipe(tap(() => this._state.DeleteProduct(product)));
+    
   }
+  public AddProduct(product: Product) { 
+    return this._http.post<Product>(this._urlProducts, product)
+    .pipe(tap(p => this._state.AddProduct(p)
+  ))
+}
+private RefreshState() {
+  // refresh products state machine;
+}
 }
 
 

@@ -24,9 +24,8 @@ export class Login implements OnInit{
     password = null;
     this._auth.Authenticate(username, password)
     .subscribe({
-      complete: () => {
-        this.router.navigate(['/mymandado', `${username}`])
-      }
+      next: () => this.router.navigate(['/mymandado', `${username}`]),
+      error: e => console.error(e),
     });
   }
 }

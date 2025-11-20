@@ -1,29 +1,25 @@
-<div style=" display:flex; flex-direction:row; justify-content:space-between; ">
-   @if(this.doneonly()){
-      <p-button icon="pi pi-eye" (click)="switchViewDoneNotDone()" severity="contrast" />
-   } 
-   @else{
-      <p-button icon="pi pi-eye-slash" (click)="switchViewDoneNotDone()" severity="contrast" />
-   }
+<!-- <div style=" display:flex; flex-direction:row; justify-content:space-between; ">
+      <p-button icon="pi pi-eye-slash" (click)="GoToView_Todos()" severity="contrast" />
    <span style="display:flex; flex-direction:row; justify-content:flex-start; align-items:center;"> <p-button (click)="logout()" severity="secondary">logout : {{user()}}</p-button> <h4></h4></span>
    
    <p-button 
    icon="pi pi-plus" 
-   (click)="formAddVisible=true" 
+   (click)="addFormVisible=true" 
    label="Ajouter" 
    severity="info" />
 </div>
 
 
 <mnd-form-add-cart-item 
-[(isvisible)]="formAddVisible" 
+[(isvisible)]="addFormVisible" 
 (submit)="addItemSubmit($event)" />
+
 <mnd-form-add-cart-item 
 [(isvisible)]=updateFormVisible 
 (submit)=updateItemSubmit($event) 
 [item]=updatingItem()/>
 
-@if(!formAddVisible && !updateFormVisible){
+@if(!addFormVisible && !updateFormVisible){
    
    <div class=table-container>
       <table>
@@ -42,29 +38,26 @@
             </tr>
          </thead>
          <tbody>
-            @for(cartitem of products() ; track cartitem){
+            @for(cartitem of items() ; track cartitem){
                <tr >
                   <td>
-                     <p-checkbox  inputId="cart_item"  [ngModel]="cartitem.isdone" (onChange)="toogle($event.checked,cartitem)"  [binary]="true" [disabled]="loading()" />
+                     <p-checkbox  inputId="cart_item"  [ngModel]="cartitem.isdone" (onChange)="toogle($event.checked,cartitem)"  [binary]="true" [disabled]="this._state.isloading()" />
                      <label for="cart_item">  </label>
                   </td>
                   <td style="text-align:end;">{{cartitem.quantity}}  {{cartitem.product.unit}}</td>
                   <td> {{cartitem.product.name}}  </td>
                   <td> 
-                     @if(!doneonly()){
                         <p-button 
                         icon="pi pi-pencil"
                         class="p-button-text"
                         (onClick)="showUpdateForm(cartitem)"
                         /> 
-                     } @else{
                         <p-button 
                         icon="pi pi-trash"
                         severity="danger"
                         class="p-button-text"
                         (onClick)="delete(cartitem)"
                         /> 
-                     }
                   </td>
                </tr>
             }
@@ -72,4 +65,4 @@
       </table>
       
    </div>
-}
+} -->

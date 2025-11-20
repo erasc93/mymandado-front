@@ -1,27 +1,28 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, input, model, Output, output, signal, WritableSignal } from '@angular/core';
-import { FormsModule, NgForm, NgModel, NgModelGroup } from '@angular/forms';
-import { unit } from 'app/viewmodels/unit';
+import { Component, EventEmitter, input, model, Output } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
+import { CartItemsClient } from '@cart/cart-items-client';
+import { itemForm } from '@cart/form-add-cart-item/form-add-cart-item';
+import { unit } from '@viewmodels/unit';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import {  InputGroupModule } from 'primeng/inputgroup';
-import {  InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { CartItemsClient } from '@cart/cart-items-client'
 
 @Component({
-  selector: 'mnd-form-add-cart-item',
+  selector: 'mnd-form-update-cart-item',
   imports: [CommonModule, CheckboxModule,  ButtonModule, InputTextModule, SelectModule, InputNumberModule
     , InputGroupModule, InputGroupAddonModule, InputTextModule, SelectModule, InputNumberModule,
     FormsModule 
   ],
   providers:[CartItemsClient],
-  templateUrl: './form-add-cart-item.html',
-  styleUrl: './form-add-cart-item.scss',
+  templateUrl: './form-update-cart-item.html',
+  styleUrl: './form-update-cart-item.scss',
 })
-export class FormAddCartItem {
+export class FormUpdateCartItem {
   
   isvisible = model<boolean>();
   protected units:unit[]= Object.values(unit)
@@ -44,5 +45,3 @@ export class FormAddCartItem {
     this.setVisibility(false);
   }
 }
-
-export interface itemForm{ namen: string; quantity: number; unity: string; }

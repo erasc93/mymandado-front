@@ -1,0 +1,70 @@
+<div style=" display:flex; flex-direction:row; justify-content:space-between; ">
+   <!-- <p-button icon="pi pi-eye" (click)="GoToView_Done()" severity="contrast" /> -->
+   <!-- <p-button icon="pi pi-eye-slash" (click)="GoToView_Todos()" severity="contrast" /> -->
+   <!-- <span style="display:flex; flex-direction:row; justify-content:flex-start; align-items:center;"> <p-button (click)="logout()" severity="secondary">logout : {{user()}}</p-button> <h4></h4></span> -->
+   
+   <p-button 
+   icon="pi pi-plus" 
+   (click)="addFormVisible.set(true)" 
+   label="Ajouter" 
+   severity="info" />
+</div>
+
+
+<mnd-form-add-cart-item 
+[(isvisible)]="addFormVisible" 
+(OnSubmit)="addItemSubmit($event)" 
+[item]= updatingItem()
+/>
+
+<mnd-form-update-cart-item 
+[(isvisible)]=updateFormVisible 
+(OnSubmit)=updateItemSubmit($event) 
+[item]=updatingItem()/>
+
+
+<div class=table-container>
+   <table>
+      <colgroup>
+         <col style="width: 10%; ">
+         <col style="width: 20%;">
+         <col style="width: 55%;">
+         <col style="width: 15%;">
+      </colgroup>
+      <thead>
+         <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+         </tr>
+      </thead>
+      <tbody>
+         @for(cartitem of items() ; track cartitem.id){
+            <tr >
+               <td>
+                  <p-checkbox  inputId="cart_item"  [ngModel]="cartitem.isdone" (onChange)="SetItemDone(cartitem)"  [binary]="true" [disabled]="this._state.isloading()" />
+                  <label for="cart_item">  </label>
+               </td>
+               <td style="text-align:end;">{{cartitem.quantity}}  {{cartitem.product.unit}}</td>
+               <td> {{cartitem.product.name}}  </td>
+               <td> 
+                  <p-button 
+                  icon="pi pi-pencil"
+                  class="p-button-text"
+                  (onClick)="showUpdateForm(cartitem)"
+                  /> 
+                  <!-- <p-button 
+                  icon="pi pi-trash"
+                  severity="danger"
+                  class="p-button-text"
+                  (onClick)="delete(cartitem)"
+                  />  -->
+               </td>
+            </tr>
+         }
+      </tbody>
+   </table>
+   
+</div>
+
