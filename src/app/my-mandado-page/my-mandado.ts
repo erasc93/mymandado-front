@@ -2,7 +2,7 @@ import { Component, inject,  OnInit, signal } from '@angular/core';
 import { FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CartItemsList } from '@cart/cart-items-list/cart-items-list';
-import { ActivatedRoute,  Router,  RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { map, Observable  } from 'rxjs';
 import { CartResolverData } from '@cart/cart-resolver';
 import { TodoList } from "@cart/todo-list/todo-list";
@@ -14,11 +14,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AppState, TabView } from '@cart/AppState';
 import { DoneList } from "@cart/done-list/done-list";
 import { StateMachine } from '@cart/cart-items-state';
+import { PrimeIcons } from 'primeng/api';
 
 @Component({
   selector: 'mnd-my-mandado',
   // imports: [CommonModule, FormsModule, RouterModule, CartItemsList, TodoList,ProductsList ],
-  imports: [CheckboxModule,  CommonModule, FormsModule, ButtonModule, InputTextModule,  TodoList, ProductsList, DoneList],
+  imports: [CheckboxModule, CommonModule, FormsModule, ButtonModule, InputTextModule, TodoList, ProductsList, DoneList, RouterOutlet],
   templateUrl: './my-mandado.html',
   styleUrl: './my-mandado.scss',
 })
@@ -52,6 +53,7 @@ export class MyMandado implements OnInit{
   public GoToView_Done() {
     this._appState.tab.set(TabView.done);
   }
+
   public GoToView_Todo() {
     this._appState.tab.set(TabView.todos);
   }

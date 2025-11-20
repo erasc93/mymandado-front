@@ -1,18 +1,23 @@
+<router-outlet/>
+
 <div style=" display:flex; flex-direction:row; justify-content:space-around; ">
    @switch (_appState.tab()) {
-      @case(0) { <p-button icon="pi pi-eye" (click)="GoToView_Done()" severity="contrast" /> }
+      @case(0) { 
+         <!-- <p-button icon="pi pi-eye" (click)="GoToView_Done()" severity="contrast" />  -->
+         <p-button icon="pi pi-list" label="Produits" (click)="GoToView_Products()" severity="contrast"/>
+      }
+      @case(1){
+         <!-- <p-button icon="pi pi-eye-slash" (click)="GoToView_Todo()" severity="contrast" /> -->
+         <p-button icon="pi pi-list" label="Produits" (click)="GoToView_Products()" severity="contrast"/>
+      }
       @case(2) {
          <!-- <span style="display:flex; flex-direction:row; ">   -->
-         <p-button  icon="pi-undo" label="mymandado" (click)="GoToView_Done()" severity="contrast" severity="info"/>
-      <!-- </span> -->
-   }
-      @case(1){
-         <p-button icon="pi pi-eye-slash" (click)="GoToView_Todo()" severity="contrast" />
+            <p-button  icon="pi pi-undo" label="mymandado" (click)="GoToView_Todo()" severity="info" severity="contrast"/>
+         <!-- </span> -->
       }
    }
-   <p-button icon="pi pi-list" label="Produits" (click)="GoToView_Products()" severity="info"/>
-   
-   <span style="display:flex; flex-direction:row; justify-content:flex-start; align-items:center;"> <p-button (click)="logout()" severity="secondary">logout : {{(res_data$|async)!.username}}</p-button> <h4></h4></span>
+   <p-button icon="pi pi-user-edit" (click)="logout()" severity="contrast" label="bye"/>
+   <!-- <span style="display:flex; flex-direction:row; justify-content:flex-start; align-items:center;"> <p-button icon="pi-user-edit" (click)="logout()" severity="contrast"/></span> -->
    
 </div>
 

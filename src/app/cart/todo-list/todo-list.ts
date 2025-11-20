@@ -118,7 +118,4 @@ export class TodoList implements OnInit{
     error:(e:any)=>console.error(e)
   }
   
-  
-  
-  
 }

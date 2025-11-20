@@ -24,6 +24,9 @@ import { tap } from 'rxjs';
   styleUrl: './done-list.scss',
 })
 export class DoneList implements OnInit{
+  GoToView_Todo() {
+    this._appState.tab.set(TabView.todos);
+  }
   ngOnInit(): void {
     this._productsClient.FetchProducts()
     .pipe(tap((list:Product[]) => this._state.SetProducts(list)))

@@ -4,6 +4,8 @@ import { Notfound } from 'app/navigation/notfound/notfound';
 import { Login } from 'app/authentication/login-page/login';
 import { loginGuard } from 'app/navigation/login-guard';
 import { cartResolver } from '@cart/cart-resolver';
+import { ProductsList } from 'app/products/products-list/products-list';
+import { TodoList } from '@cart/todo-list/todo-list';
 
 export const routes: Routes = [
    {path:'', redirectTo:'login', pathMatch:'full'},
@@ -13,6 +15,12 @@ export const routes: Routes = [
       .then(m => m.MyMandado),
       canActivate:[loginGuard],
       resolve: { cartitems: cartResolver },
+      // children: [
+
+      //    {path:'',redirectTo:'todo',pathMatch:'full'},
+      //    {path:'todo',component:TodoList},
+      //    {path:'products',component:ProductsList}
+      // ]
    },
    {
       path: 'login',

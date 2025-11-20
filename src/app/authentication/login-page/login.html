@@ -1,32 +1,51 @@
-  <!-- <p>hello</p> -->
-  <form #loginForm=ngForm (submit)="login()" 
-  style="display:flex;
+<form #loginForm=ngForm (submit)="login()" style="display:flex;
       flex-direction:column;
       justify-content:flex-start;
       border-radius:1em;
       padding:1em;
       margin-top:5em;
       ">
-  <div
-  style="display:flex;
-  padding:0px;
-  margin:1px 2px 1em 2px;
-        justify-content:center;
-        align-items:center;">
-  <label
-  style="margin-right:1em;"
-  for=user>user</label>
-  <input
-  type=text
-  id=user
-  name=username
-  [(ngModel)]='username'
-  style="flex-grow:grow;">
+<!-- <p-select [options]="cities" [(ngModel)]="selectedCity" variant="filled" optionLabel="name" placeholder="Select a City" class="w-full md:w-56" /> -->
+
+<div style="display:flex; 
+padding:0px;
+margin:1px 2px 1em 2px;
+justify-content:center;
+align-items:center;">
+
+<label style="margin-right:1em;" for=user>user</label>
+<p-select [options]="users | async" 
+id="user"
+name="username"
+[(ngModel)]="username" 
+[editable]="false"
+variant="filled"  
+placeholder="Select User" 
+class="w-half md:w-26" />
+
+<!-- <input type=text
+id=user
+name=username
+[(ngModel)]='username'
+style="flex-grow:grow;"> -->
 </div>
-<div
-style="
+
+@if(username()!='visit')
+{
+  <div style="display:flex; justify-content:center;" >
+    <label style="margin-right:1em;" for=password> pin </label>
+    <input type=password
+    id=password
+    name=password
+    [(ngModel)]='password'
+    style="flex-grow:grow;">
+  </div>
+}
+
+<div style="
   display:flex;
-  justify-content:center;">
-<p-button type=submit severity="primary"> Login </p-button>
+  justify-content:center; margin-top:10px">
+<p-button type=submit severity="primary" autofocus disabled="{{!username()}}"> Login </p-button>
 </div>
+
 </form>

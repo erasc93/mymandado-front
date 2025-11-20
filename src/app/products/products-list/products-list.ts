@@ -16,7 +16,7 @@ import { FormProducts, prdForm } from "../form-products/form-products";
 
 @Component({
   selector: 'mnd-products-list',
-  imports: [CheckboxModule, CommonModule, FormsModule, ButtonModule, InputTextModule, FormAddCartItem, FormProducts],
+  imports: [CheckboxModule, CommonModule, FormsModule, ButtonModule, InputTextModule,  FormProducts],
   templateUrl: './products-list.html',
   styleUrl: './products-list.scss',
 })
