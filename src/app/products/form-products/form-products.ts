@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, input, model, Output } from '@angular/core';
+import { Component, EventEmitter, model, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -8,9 +8,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { ProductsClient } from '../products-client';
 import { unit } from '@viewmodels/unit';
-import { isValidDate } from 'rxjs/internal/util/isDate';
 
 @Component({
   selector: 'mnd-form-products',

@@ -44,7 +44,7 @@ export class CartItemsClient {
     return this._http.post<CartItem>(this._urlCartItems, item)
     .pipe( tap((it:CartItem)=>this._state.AddItem(it)))
   }
-  public RemoveItem(item: CartItem) :Observable<void>{
+  public RemoveFrmListItem(item: CartItem) :Observable<void>{
     return this._http.delete<void>(`${this._urlCartItems}/${item.id}`)
     .pipe(tap(() => this._state.RemoveItem(item)));
   }

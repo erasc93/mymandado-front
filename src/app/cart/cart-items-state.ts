@@ -18,17 +18,11 @@ export class StateMachine {
   
   
   
-  public cartnumber  = signal(0);
   #carts= signal<Cart[]>([]);
-  // public cartItems = computed(() => {
-  //   const carts = this.#carts();
-  //   const numero = this.cartnumber();
-  //   const cart = carts.find(c=>c.numero===numero);
-  
-  //   if (!cart || !cart.items) return [];
-  //   return [...cart.items].sort((a, b) => a.product.name.localeCompare(b.product.name));
-  // })
-  
+  public cartnumber = linkedSignal({
+    source: this.#carts,
+    computation:()=>0,
+  });
   
   public cartItems = linkedSignal({
     source:this.#carts,
@@ -41,38 +35,10 @@ export class StateMachine {
       return [...cart.items].sort((a, b) => a.product.name.localeCompare(b.product.name));
     }
   })
-  //   public UpdateItem(item: CartItem) {
-  //     this.#carts.update((carts:Cart[]) => {
-  //       const numero = this.cartnumber();
-  //       const caas:CartItem[]=[ ...carts.map(cart => {
-  //         if (cart.numero !== numero) return cart;
-  
-  //         // On remplace l'item modifié par un nouvel objet
-  //         const updatedItems = cart.items.map(i =>
-  //           i.id === item.id ? { ...item } : i
-  //         );
-  
-  //         return { ...cart, items: this.Sort(updatedItems) };
-  //       })
-  //     ]
-  //     return caas;
-  //   });
-  // }
-  // public UpdateItem(item: CartItem)
-  // {
-  //   this.#carts.update(carts => {
-  //     const numero = this.cartnumber();
-  //     const cartsvalue: Cart[] = carts.map((cart: Cart) => cart.numero === numero
-  //     ? { ...cart, items: this.Sort([...cart.items.filter(t => t.id != item.id), item]) }
-  //     : { ...cart });
-  //     return [...cartsvalue];
-  //   });
-  // }
-  
+
   public UpdateItem(item: CartItem)
   {
     this.cartItems.update((items: CartItem[]) => [...items.filter(x => x.product.id != item.product.id), item ]);
-    // this.cartItems.update((items: CartItem[]) => [...this.Sort([...items.filter(x => x.product.id != item.product.id), item ])]);
   }
   
   

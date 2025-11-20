@@ -6,6 +6,8 @@
 [item]= updatingItem()
 />
 
+@if(!addFormVisible())
+{
 <div class=table-container>
    <table>
       <colgroup>
@@ -16,7 +18,7 @@
       </colgroup>
       <thead>
          <tr>
-            <th><p-button icon="pi pi-eye-slash" (click)="GoToView_Todo()" severity="contrast" routerLink="../todos" /> </th>
+            <th><p-button icon="pi pi-eye-slash"  severity="contrast" routerLink="../todos" /> </th>
             <th></th>
             <th></th>
             <th><p-button  icon="pi pi-plus" (click)="addFormVisible.set(true)" severity="info"/></th>
@@ -42,7 +44,7 @@
                   icon="pi pi-trash"
                   severity="danger"
                   class="p-button-text"
-                  (onClick)="delete(cartitem)"
+                  (onClick)="RemoveFromList(cartitem)"
                   /> 
                </td>
             </tr>
@@ -51,3 +53,5 @@
    </table>
    
 </div>
+
+}

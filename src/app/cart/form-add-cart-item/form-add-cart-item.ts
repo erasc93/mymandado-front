@@ -23,25 +23,21 @@ import { CartItemsClient } from '@cart/cart-items-client'
 })
 export class FormAddCartItem {
   
-  isvisible = model<boolean>();
-  protected units:unit[]= Object.values(unit)
+  public isvisible = model<boolean>();
+  public item = input.required<itemForm>();
+  @Output() public OnSubmit = new EventEmitter<itemForm>();
   
-  item = input.required<itemForm>();
-  // item = input<itemForm>({ namen:'', quantity:1, unity:unit.null });
   
-  @Output() OnSubmit = new EventEmitter<itemForm>();
-  cancel() {
-    this.setVisibility(false);
-  }
-
-  protected setVisibility(vi: boolean): void{
-    this.isvisible.set(vi);
-  }
-  
-  MySubmit(form:NgForm) {
-    const o :itemForm= { namen: form.value.name, quantity: form.value.quantity, unity: form.value.unit }
-    this.OnSubmit.emit(o);
-    this.setVisibility(false);
+  protected allUnits:unit[]= Object.values(unit)
+  protected CancelForm() :void{ this.isvisible.set(false); }
+  public SubmitForm(form:NgForm) :void {
+    const formValues: itemForm = {
+      namen: form.value.name,
+      quantity: form.value.quantity,
+      unity: form.value.unit
+    }
+    this.OnSubmit.emit(formValues);
+    this.isvisible.set(false);
   }
 }
 

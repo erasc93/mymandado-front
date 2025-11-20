@@ -13,28 +13,23 @@ import { Observable } from 'rxjs';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login implements OnInit{
-  ngOnInit(): void {
-    // this.login();
-  }
-  // public selectedusername= model<string>('');
+export class Login {
+  private _router=inject(Router)
+  private _auth=inject(AuthClient);
+  
+  public users$:Observable<string[]> = this._auth.FetchUsernames();
+  
   public username =model<string|null>(null);
   public password =model<string|null>(null);
-  router=inject(Router)
-  private _auth=inject(AuthClient);
-  public users:Observable<string[]> = this._auth.FetchUsernames();
-  // public users: string[]=['manu','cleo','visitor']
   login() {
-    const
-    username = this.username(),
-    password = null;
+    const username = this.username(), password = null;
+
     if (username) {
       this._auth.Authenticate(username, password)
       .subscribe({
-        next: () => this.router.navigate(['/mymandado', `${username}`]),
+        next: () => this._router.navigate(['/mymandado', `${username}`]),
         error: e => console.error(e),
       });
     }
   }
 }
-export interface loginData { username: string; }

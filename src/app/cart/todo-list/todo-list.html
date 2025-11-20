@@ -1,13 +1,13 @@
 
 <mnd-form-add-cart-item 
 [(isvisible)]="addFormVisible" 
-(OnSubmit)="addItemSubmit($event)" 
+(OnSubmit)="SubmitFormAdd($event)" 
 [item]= updatingItem()
 />
 
 <mnd-form-update-cart-item 
 [(isvisible)]=updateFormVisible 
-(OnSubmit)=updateItemSubmit($event) 
+(OnSubmit)=SubmitFormUpdate($event) 
 [item]=updatingItem()/>
 
 @if(!updateFormVisible()&&!addFormVisible())
@@ -22,14 +22,14 @@
          </colgroup>
          <thead>
             <tr>
-               <th><p-button icon="pi pi-eye" (click)="GoToView_Done()" severity="contrast" routerLink="../dones"/> </th>
+               <th><p-button icon="pi pi-eye"  severity="contrast" routerLink="../dones"/> </th>
                <th></th>
                <th></th>
                <th><p-button  icon="pi pi-plus" (click)="addFormVisible.set(true)" severity="info"/></th>
             </tr>
          </thead>
          <tbody>
-            @for(cartitem of items() ; track cartitem.id){
+            @for(cartitem of todoItems() ; track cartitem.id){
                <tr >
                   <td>
                      <p-checkbox  inputId="cart_item"  [ngModel]="cartitem.isdone" (onChange)="SetItemDone(cartitem)"  [binary]="true" [disabled]="this._state.isloading()" />
@@ -41,7 +41,7 @@
                      <p-button 
                      icon="pi pi-pencil"
                      class="p-button-text"
-                     (onClick)="showUpdateForm(cartitem)"
+                     (onClick)="ShowFormUpdate(cartitem)"
                      /> 
                   </td>
                </tr>

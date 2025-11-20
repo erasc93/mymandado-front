@@ -7,14 +7,16 @@ import { cartResolver } from '@cart/cart-resolver';
 import { ProductsList } from 'app/products/products-list/products-list';
 import { TodoList } from '@cart/todo-list/todo-list';
 import { DoneList } from '@cart/done-list/done-list';
+import { CartClient } from '@cart/cart-client';
+import { ProductsClient } from 'app/products/products-client';
 
 export const routes: Routes = [
    {path:'', redirectTo:'login', pathMatch:'full'},
    {
       path: 'mymandado/:username',
-      loadComponent: () => import('app/my-mandado-page/my-mandado')
-      .then(m => m.MyMandado),
+      loadComponent: () => import('app/my-mandado-page/my-mandado').then(m => m.MyMandado),
       canActivate:[loginGuard],
+      providers:[CartClient,ProductsClient],
       resolve: { cartitems: cartResolver },
       children: [
 

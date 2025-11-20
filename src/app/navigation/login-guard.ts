@@ -5,7 +5,6 @@ import { map } from 'rxjs';
 
 export const loginGuard: CanActivateFn = (route, state) => {
   const auth=inject(AuthClient);
-  return auth.loggedIn$.pipe(map(
-    isLogged => { return isLogged }
-  ));
+  return auth.loggedIn$
+    .pipe(map( isLogged => { return isLogged }));
 }

@@ -7,7 +7,7 @@ import { StateMachine } from '@cart/cart-items-state';
 import { Observable, tap } from 'rxjs';
 
 
-@Injectable({providedIn:'root'})
+@Injectable()
 export class ProductsClient{
   
   private _urlProducts = 'mymandado/api/products';
@@ -16,8 +16,8 @@ export class ProductsClient{
   public isLoading = signal(false); 
   // --- --- ---
   public FetchProducts ():Observable<Product[]> {
-    
-    return this._http.get<Product[]>(this._urlProducts);
+    return this._http.get<Product[]>(this._urlProducts)
+      .pipe(tap((list: Product[]) => this._state.SetProducts(list)));
   }
   public Update(product: Product):Observable<void> {
     return this._http.put<void>(this._urlProducts, product)
