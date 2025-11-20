@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AppState, TabView } from '@cart/AppState';
 import { CartClient } from '@cart/cart-client';
 import { CartItemsClient } from '@cart/cart-items-client';
@@ -19,11 +19,17 @@ import { tap } from 'rxjs';
 @Component({
   selector: 'mnd-done-list',
   providers:[CartItemsClient,CartClient], // used for updating product
-  imports: [CheckboxModule,FormAddCartItem,CommonModule,FormsModule,ButtonModule,InputTextModule],
+  imports: [CheckboxModule, FormAddCartItem, CommonModule, FormsModule, ButtonModule, InputTextModule, RouterLink],
   templateUrl: './done-list.html',
   styleUrl: './done-list.scss',
 })
 export class DoneList implements OnInit{
+  protected addItemSubmit($event: itemForm) :void{
+    // const item = this.BuildCartItem($event.namen, $event.quantity, $event.unity);
+    const item = this._cartItemClient.BuildCartItem($event.namen, $event.quantity, $event.unity,true);
+
+    this._cartItemClient.AddItem(item).subscribe(this.ob);
+  }
   GoToView_Todo() {
     this._appState.tab.set(TabView.todos);
   }
@@ -32,6 +38,7 @@ export class DoneList implements OnInit{
     .pipe(tap((list:Product[]) => this._state.SetProducts(list)))
     .subscribe(this.ob)
   }
+  
   private _productsClient = inject(ProductsClient);
   private _router :Router = inject(Router);
   protected _cartItemClient = inject(CartItemsClient);

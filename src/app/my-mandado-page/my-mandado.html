@@ -1,18 +1,23 @@
-<router-outlet/>
 
 <div style=" display:flex; flex-direction:row; justify-content:space-around; ">
    @switch (_appState.tab()) {
       @case(0) { 
          <!-- <p-button icon="pi pi-eye" (click)="GoToView_Done()" severity="contrast" />  -->
-         <p-button icon="pi pi-list" label="Produits" (click)="GoToView_Products()" severity="contrast"/>
+         <p-button icon="pi pi-list" label="Produits" (click)="GoToView_Products()" severity="contrast" 
+         routerLink="products"
+         />
       }
       @case(1){
          <!-- <p-button icon="pi pi-eye-slash" (click)="GoToView_Todo()" severity="contrast" /> -->
-         <p-button icon="pi pi-list" label="Produits" (click)="GoToView_Products()" severity="contrast"/>
+         <p-button icon="pi pi-list" label="Produits" (click)="GoToView_Products()" severity="contrast"
+         routerLink="products"
+         />
       }
       @case(2) {
          <!-- <span style="display:flex; flex-direction:row; ">   -->
-            <p-button  icon="pi pi-undo" label="mymandado" (click)="GoToView_Todo()" severity="info" severity="contrast"/>
+            <p-button  icon="pi pi-undo" label="mymandado" (click)="GoToView_Todo()" severity="info" severity="contrast"
+               routerLink="todos"
+            />
          <!-- </span> -->
       }
    }
@@ -21,14 +26,14 @@
    
 </div>
 
+<router-outlet/>
 
 
-@switch (_appState.tab()) {
+<!-- @switch (_appState.tab()) {
    @case (0) {
       <mnd-todo-list/>
    }
    @case (1) {
-      <!-- <mnd-done-list [user]=(res_data$|async)!.username/> -->
       <mnd-done-list />
    }
    @case (2) {
@@ -36,6 +41,4 @@
    }
    @default {
    }
-}
-
-<!-- serveur ipsos -->
+} -->

@@ -2,7 +2,7 @@ import { Component, inject,  OnInit, signal } from '@angular/core';
 import { FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CartItemsList } from '@cart/cart-items-list/cart-items-list';
-import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule, RouterOutlet, RouterLinkWithHref } from '@angular/router';
 import { map, Observable  } from 'rxjs';
 import { CartResolverData } from '@cart/cart-resolver';
 import { TodoList } from "@cart/todo-list/todo-list";
@@ -19,7 +19,7 @@ import { PrimeIcons } from 'primeng/api';
 @Component({
   selector: 'mnd-my-mandado',
   // imports: [CommonModule, FormsModule, RouterModule, CartItemsList, TodoList,ProductsList ],
-  imports: [CheckboxModule, CommonModule, FormsModule, ButtonModule, InputTextModule, TodoList, ProductsList, DoneList, RouterOutlet],
+  imports: [CheckboxModule, CommonModule, FormsModule, ButtonModule, InputTextModule, TodoList, ProductsList, DoneList, RouterOutlet, RouterLinkWithHref],
   templateUrl: './my-mandado.html',
   styleUrl: './my-mandado.scss',
 })
@@ -59,5 +59,6 @@ export class MyMandado implements OnInit{
   }
   GoToView_Products() {
     this._appState.tab.set(TabView.products);
+    // this._router.navigate(['./products']);
   }
 }

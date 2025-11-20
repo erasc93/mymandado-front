@@ -1,25 +1,10 @@
-<!-- <div style=" display:flex; flex-direction:row; justify-content:space-between; "> -->
-   <!-- <p-button icon="pi pi-eye" (click)="GoToView_Done()" severity="contrast" /> -->
-   <!-- <p-button icon="pi pi-eye-slash" (click)="GoToView_Todos()" severity="contrast" /> -->
-   <!-- <span style="display:flex; flex-direction:row; justify-content:flex-start; align-items:center;"> <p-button (click)="logout()" severity="secondary">logout : {{user()}}</p-button> <h4></h4></span> -->
-   
-   <!-- <p-button 
-   icon="pi pi-plus" 
-   (click)="addFormVisible=true" 
-   label="Ajouter" 
-   severity="info" /> -->
-<!-- </div> -->
 
 
-<!-- <mnd-form-add-cart-item 
+<mnd-form-add-cart-item 
 [(isvisible)]="addFormVisible" 
-(submit)="addItemSubmit($event)" /> -->
-
-<!-- <mnd-form-add-cart-item 
-[(isvisible)]=updateFormVisible 
-(submit)=updateItemSubmit($event) 
-[item]=updatingItem()/> -->
-
+(OnSubmit)="addItemSubmit($event)" 
+[item]= updatingItem()
+/>
 
 <div class=table-container>
    <table>
@@ -31,10 +16,11 @@
       </colgroup>
       <thead>
          <tr>
-            <th><p-button icon="pi pi-eye-slash" (click)="GoToView_Todo()" severity="contrast" /> </th>
-                     <th></th>
+            <th><p-button icon="pi pi-eye-slash" (click)="GoToView_Todo()" severity="contrast" routerLink="../todos" /> </th>
             <th></th>
             <th></th>
+            <th><p-button  icon="pi pi-plus" (click)="addFormVisible.set(true)" severity="info"/></th>
+            
          </tr>
       </thead>
       <tbody>

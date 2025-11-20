@@ -6,6 +6,7 @@ import { loginGuard } from 'app/navigation/login-guard';
 import { cartResolver } from '@cart/cart-resolver';
 import { ProductsList } from 'app/products/products-list/products-list';
 import { TodoList } from '@cart/todo-list/todo-list';
+import { DoneList } from '@cart/done-list/done-list';
 
 export const routes: Routes = [
    {path:'', redirectTo:'login', pathMatch:'full'},
@@ -15,12 +16,13 @@ export const routes: Routes = [
       .then(m => m.MyMandado),
       canActivate:[loginGuard],
       resolve: { cartitems: cartResolver },
-      // children: [
+      children: [
 
-      //    {path:'',redirectTo:'todo',pathMatch:'full'},
-      //    {path:'todo',component:TodoList},
-      //    {path:'products',component:ProductsList}
-      // ]
+         {path:'',redirectTo:'todos',pathMatch:'full'},
+         {path:'todos',component:TodoList,pathMatch:'full'},
+         {path:'dones',component:DoneList,pathMatch:'full'},
+         {path:'products',component:ProductsList,pathMatch:'full'}
+      ]
    },
    {
       path: 'login',
