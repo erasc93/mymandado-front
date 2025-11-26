@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthClient } from 'app/authentication/auth-client';
 import { Button, ButtonModule } from 'primeng/button';
 import { Select } from 'primeng/select';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'mnd-login',
@@ -17,15 +17,17 @@ export class Login {
   private _router=inject(Router)
   private _auth=inject(AuthClient);
   
-  public users$:Observable<string[]> = this._auth.FetchUsernames();
-  
   public username =model<string|null>(null);
   public password =model<string|null>(null);
+
+  public users$: Observable<string[]> = this._auth.FetchUsernames()
+    .pipe(tap(users => { const u = users.find(u => u.startsWith('visi')); this.username.set(u??users[0]) }));
+  
   login() {
-    const username = this.username(), password = null;
+    const username = this.username();
 
     if (username) {
-      this._auth.Authenticate(username, password)
+      this._auth.Authenticate(username, this.password())
       .subscribe({
         next: () => this._router.navigate(['/mymandado', `${username}`]),
         error: e => console.error(e),

@@ -1,16 +1,39 @@
-<div style=" display:flex; flex-direction:row; justify-content:space-around; ">
+<p-toolbar>
+   <p-button (onClick)="sidebarVisible=true" 
+   icon="pi pi-cart-plus" severity="contrast"/>
    @if(currentChild()!='products'){
-      <p-button icon="pi pi-list" label="Produits"  severity="contrast"
+      <p-button  label="Produits"  severity="contrast"
       routerLink="products"
       />
    }
    @else {
-         <p-button  icon="pi pi-undo" label="" severity="info" severity="contrast"
-         routerLink="todos"
-         />
+      <p-button  icon="pi pi-home" label="" severity="info" severity="contrast"
+      routerLink="todos"
+      />
    }
-   
-   <p-button icon="pi pi-user-edit" (click)="logout()" severity="contrast" label="bye"/>
-</div>
-
+   <p-button icon="pi pi-sign-out" (click)="logout()" severity="contrast" label="bye"/>
+</p-toolbar>
 <router-outlet/>
+
+<!-- SideBar -->
+<div class="card flex justify-left">
+   <p-drawer [(visible)]="sidebarVisible" 
+   header="Mes listes">
+   <p-button icon="pi pi-plus" (onClick)="addCart()"/>
+
+   <p-listbox 
+   [(ngModel)]="_state.selectedCart" 
+   [options]="_state._carts()" 
+   optionLabel="name" [checkmark]="true" [highlightOnSelect]="false" class="w-full md:w-55"
+   />
+
+   <!-- @for(x of _state.mycars(); track x.numero)
+   {
+      <p>{{x.numero}}-{{x.name}}</p>
+   }
+   @for(x of _state._carts() ;track x.numero)
+   {
+      <p>{{x.numero}}-{{x.name}}</p>
+   } -->
+   </p-drawer>
+</div>

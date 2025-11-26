@@ -23,7 +23,15 @@ export class StateMachine {
     source: this.#carts,
     computation:()=>0,
   });
-  
+  public mycars = computed(this.#carts);
+  public readonly _carts = computed(() => this.mycars()
+    .map<CartDisplay>(c => { return { numero: c.numero, name: c.name, description: c.description, count: c.items.length } })
+  );
+  public readonly selectedCart = linkedSignal({
+    source: this._carts,
+    computation:()=>this._carts()[0]
+  })
+
   public cartItems = linkedSignal({
     source:this.#carts,
     computation:()=>{
@@ -42,8 +50,13 @@ export class StateMachine {
   }
   
   
-  public SetCarts(carts:Cart[]) { this.#carts.set([...carts]); }
-  public mycars = computed(this.#carts);
+  public SetCarts(carts: Cart[]) {
+    this.#carts.set([...carts]);
+  }
+  public PushCart(carts: Cart) {
+    this.#carts.set([...this.#carts(),carts]);
+  }
+
   public AddItem(item: CartItem)
   {
     this.#carts.update(carts => {
@@ -71,4 +84,11 @@ export class StateMachine {
   // private Sort(items: any[]) {
   //   return [...items].sort((a, b) => a.name.localeCompare(b.name));
   // }
+}
+
+export interface CartDisplay{
+  numero: number;
+  name: string;
+  description: string;
+  count: number;
 }

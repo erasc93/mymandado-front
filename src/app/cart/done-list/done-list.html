@@ -8,50 +8,53 @@
 
 @if(!addFormVisible())
 {
-<div class=table-container>
-   <table>
-      <colgroup>
-         <col style="width: 10%; ">
-         <col style="width: 20%;">
-         <col style="width: 55%;">
-         <col style="width: 15%;">
-      </colgroup>
-      <thead>
-         <tr>
-            <th><p-button icon="pi pi-eye-slash"  severity="contrast" routerLink="../todos" /> </th>
-            <th></th>
-            <th></th>
-            <th><p-button  icon="pi pi-plus" (click)="addFormVisible.set(true)" severity="info"/></th>
-            
-         </tr>
-      </thead>
-      <tbody>
-         @for(cartitem of items() ; track cartitem.id){
-            <tr >
-               <td>
-                  <p-checkbox  
-                  inputId="cart_item"  
-                  [ngModel]="cartitem.isdone" 
-                  (onChange)="SetTodoStatus(cartitem)"  
-                  [binary]="true" 
-                  [disabled]="this._state.isloading()" />
-                  <label for="cart_item">  </label>
-               </td>
-               <td style="text-align:end;">{{cartitem.quantity}}  {{cartitem.product.unit}}</td>
-               <td> {{cartitem.product.name}}  </td>
-               <td> 
-                  <p-button 
-                  icon="pi pi-trash"
-                  severity="danger"
-                  class="p-button-text"
-                  (onClick)="RemoveFromList(cartitem)"
-                  /> 
-               </td>
+   <div class=table-container>
+      <table>
+         <colgroup>
+            <col style="width: 10%; ">
+            <col style="width: 25%;">
+            <col style="width: 55%;">
+            <col style="width: 15%;">
+         </colgroup>
+         <thead>
+            <tr>
+               <th><p-button icon="pi pi-eye-slash"  severity="contrast" routerLink="../todos" /> 
+               </th>
+               <th></th>
+               <th></th>
+               <th style="display:flex;flex-direction:row-reverse" >
+                  <p-button  icon="pi pi-plus" (click)="addFormVisible.set(true)" severity="primary" label="Ajouter"/>
+               </th>
             </tr>
-         }
-      </tbody>
-   </table>
+         </thead>
+         <tbody>
+            @for(cartitem of items() ; track cartitem.id)
+            {
+               <tr>
+                  <td>
+                     <p-checkbox  
+                     inputId="cart_item"  
+                     [ngModel]="cartitem.isdone" 
+                     (onChange)="SetTodoStatus(cartitem)"  
+                     [binary]="true" 
+                     [disabled]="this._state.isloading()" />
+                     <label for="cart_item">  </label>
+                  </td>
+                  <td style="text-align:end;">{{cartitem.quantity}}  {{cartitem.product.unit}}</td>
+                  <td> {{cartitem.product.name}}  </td>
+                  <td> 
+                     <p-button 
+                     icon="pi pi-trash"
+                     severity="danger"
+                     class="p-button-text"
+                     (onClick)="RemoveFromList(cartitem)"
+                     /> 
+                  </td>
+               </tr>
+            }
+         </tbody>
+      </table>
+      
+   </div>
    
-</div>
-
 }

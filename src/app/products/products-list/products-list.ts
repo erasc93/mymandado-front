@@ -2,26 +2,25 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject,  linkedSignal,  OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StateMachine } from '@cart/cart-items-state';
-import { FormAddCartItem } from '@cart/form-add-cart-item/form-add-cart-item';
-import { CartItem } from '@viewmodels/CartItem';
 import { Product } from '@viewmodels/Product';
 import { unit } from '@viewmodels/unit';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProductsClient } from '../products-client';
-import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
 import { FormProducts, prdForm } from "../form-products/form-products";
 
 @Component({
   selector: 'mnd-products-list',
-  providers:[ProductsClient],
   imports: [CheckboxModule, CommonModule, FormsModule, ButtonModule, InputTextModule,  FormProducts],
   templateUrl: './products-list.html',
   styleUrl: './products-list.scss',
 })
-export class ProductsList {
+export class ProductsList implements OnInit{
+  
+  ngOnInit(): void {
+    this.Refresh()
+  }
   private _productsClient = inject(ProductsClient);
   private _state = inject(StateMachine);
   
@@ -58,6 +57,10 @@ export class ProductsList {
   }
   protected DeleteProductSubmit(product:Product) {
     this._productsClient.Delete(product).subscribe(this._observer);
+  }
+  Refresh() {
+    
+    this._productsClient.FetchProducts().subscribe();
   }
   
   // --- --- ---
