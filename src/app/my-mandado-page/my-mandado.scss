@@ -103,6 +103,36 @@
   gap: 0.5rem;
 }
 
+.cart-name,
+.cart-rename {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cart-name input,
+.cart-rename input {
+  flex: 1;
+}
+
+.cart-templates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cart-templates__title {
+  font-weight: 600;
+}
+
+.cart-templates__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 @media (max-width: 360px) {
   .quantity-group {
     flex-direction: column;

@@ -17,12 +17,22 @@
 
    <div class="cart-actions">
       <div class="cart-actions__left">
-         <p-button icon="pi pi-plus" (onClick)="addCart()"/>
          <p-button icon="pi pi-share-alt" (onClick)="openShare()" severity="info"/>
+         <p-button icon="pi pi-list" (onClick)="toggleTemplates()" severity="secondary"/>
       </div>
       <div class="cart-actions__right">
          <p-button icon="pi pi-trash" (onClick)="removeCart()" severity="danger"/>
       </div>
+   </div>
+
+   <div class="cart-name">
+      <input pInputText type="text" placeholder="Nom du cart" [(ngModel)]="newCartName" />
+      <p-button icon="pi pi-plus" label="Ajouter" (onClick)="addCart()" />
+   </div>
+
+   <div class="cart-rename">
+      <input pInputText type="text" placeholder="Renommer cart" [(ngModel)]="renameCartName" />
+      <p-button icon="pi pi-pencil" label="Renommer" (onClick)="renameCart()" [disabled]="!_state.selectedCart()" />
    </div>
 
    @if (shareVisible()) {
@@ -31,6 +41,17 @@
          <div class="cart-share__actions">
             <p-button label="Partager" (onClick)="submitShare()" />
             <p-button label="Annuler" severity="secondary" (onClick)="cancelShare()" />
+         </div>
+      </div>
+   }
+
+   @if (templateVisible()) {
+      <div class="cart-templates">
+         <div class="cart-templates__title">Templates</div>
+         <div class="cart-templates__list">
+            @for (template of cartTemplates; track template.name) {
+               <p-button label="{{template.name}}" (onClick)="createFromTemplate(template)" />
+            }
          </div>
       </div>
    }

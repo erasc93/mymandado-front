@@ -61,6 +61,21 @@ export class StateMachine {
     this.#carts.set([...this.#carts(),carts]);
     this.syncSelectedCart();
   }
+  public RemoveCart(cartId: number) {
+    this.#carts.set(this.#carts().filter(cart => cart.id !== cartId));
+    this.syncSelectedCart();
+  }
+  public SelectCartById(cartId: number) {
+    const match = this._carts().find(c => c.id === cartId) ?? null;
+    this.selectedCart.set(match);
+  }
+  public UpdateCartDetails(cartId: number, updates: Partial<Pick<Cart, 'name' | 'description'>>) {
+    this.#carts.update(carts => carts.map(cart => cart.id === cartId
+      ? { ...cart, ...updates }
+      : { ...cart }
+    ));
+    this.syncSelectedCart();
+  }
 
   public AddItem(item: CartItem)
   {

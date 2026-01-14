@@ -13,6 +13,17 @@
 @if(!updateFormVisible()&&!addFormVisible())
 {
    <div class=table-container>
+      <div class="table-toolbar">
+         <div class="table-toolbar__filters">
+            <p-button label="Tout" [outlined]="filterMode() !== 'all'" (onClick)="SetFilter('all')" />
+            <p-button label="Pris" [outlined]="filterMode() !== 'done'" (onClick)="SetFilter('done')" />
+            <p-button label="Restants" [outlined]="filterMode() !== 'remaining'" (onClick)="SetFilter('remaining')" />
+         </div>
+         <p-button  icon="pi pi-plus" 
+            (click)="addFormVisible.set(true)" 
+            severity="primary" 
+            label="Ajouter"/>
+      </div>
       <table>
          <colgroup>
             <col style="width: 10%; ">
@@ -20,28 +31,19 @@
             <col style="width: 55%;">
             <col style="width: 15%;">
          </colgroup>
-         <thead>
-            <tr>
-               <th><p-button icon="pi pi-eye"  severity="contrast" routerLink="../dones"/> </th>
-               <th></th>
-               <th></th>
-               <th style="display:flex;flex-direction:row-reverse" >
-                  <p-button  icon="pi pi-plus" 
-                  (click)="addFormVisible.set(true)" 
-                  severity="primary" 
-                  label="Ajouter"/>
-               </th>
-            </tr>
-         </thead>
          <tbody>
-            @for(cartitem of todoItems() ; track cartitem.id){
-               <tr >
+            @for(cartitem of filteredItems() ; track cartitem.id){
+               <tr>
                   <td>
-                     <p-checkbox  inputId="cart_item"  [ngModel]="cartitem.isdone" (onChange)="SetItemDone(cartitem)"  [binary]="true" [disabled]="this._state.isloading()" />
+                     <p-checkbox  inputId="cart_item"  [ngModel]="cartitem.isdone" (onChange)="ToggleItemDone(cartitem)"  [binary]="true" [disabled]="this._state.isloading()" />
                      <label for="cart_item">  </label>
                   </td>
-                  <td style="text-align:end;">{{cartitem.quantity}}  {{cartitem.product.unit}}</td>
-                  <td> {{cartitem.product.name}}  </td>
+                  <td class="item-text" [class.item-text--done]="cartitem.isdone" style="text-align:end;">
+                     {{cartitem.quantity}}  {{cartitem.product.unit}}
+                  </td>
+                  <td class="item-text" [class.item-text--done]="cartitem.isdone">
+                     {{cartitem.product.name}}
+                  </td>
                   <td> 
                      <p-button 
                      icon="pi pi-pencil"

@@ -27,7 +27,20 @@ export class TodoList {
   protected _cartItemClient = inject(CartItemsClient);
   protected _state = inject(StateMachine);
 
-  protected todoItems = computed(() => this._state.cartItems().filter(x => x.isdone == false));
+  protected filterMode = signal<'all' | 'done' | 'remaining'>('all');
+  protected filteredItems = computed(() => {
+    const items = [...this._state.cartItems()];
+    const mode = this.filterMode();
+    const byName = (a: CartItem, b: CartItem) =>
+      a.product.name.localeCompare(b.product.name, undefined, { sensitivity: 'base' });
+
+    if (mode === 'done') return items.filter(x => x.isdone).sort(byName);
+    if (mode === 'remaining') return items.filter(x => !x.isdone).sort(byName);
+    return items.sort((a, b) => {
+      if (a.isdone !== b.isdone) return a.isdone ? 1 : -1;
+      return byName(a, b);
+    });
+  });
   protected addFormVisible=signal(false);
   protected updatingItem= signal<itemForm>({namen:'',quantity:1,unity:unit.null})
   protected updateFormVisible =signal(false);
@@ -64,8 +77,12 @@ export class TodoList {
     this.updateFormVisible.set(false);
   }
   
-  protected SetItemDone(item: CartItem) :void{
-    item.isdone = true;
+  protected SetFilter(mode: 'all' | 'done' | 'remaining'): void {
+    this.filterMode.set(mode);
+  }
+
+  protected ToggleItemDone(item: CartItem) :void{
+    item.isdone = !item.isdone;
     this._cartItemClient.UpdateItem(item).subscribe(this.ob)
   }
   private ob={
