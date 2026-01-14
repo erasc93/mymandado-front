@@ -1,39 +1,33 @@
 <p-toolbar>
    <p-button (onClick)="sidebarVisible=true" 
    icon="pi pi-cart-plus" severity="contrast"/>
+
    @if(currentChild()!='products'){
-      <p-button  label="Produits"  severity="contrast"
-      routerLink="products"
-      />
-   }
-   @else {
-      <p-button  icon="pi pi-home" label="" severity="info" severity="contrast"
-      routerLink="todos"
-      />
+      <p-button  label="Produits"  severity="contrast" routerLink="products" />
+   }@else{
+      <p-button  icon="pi pi-home" label="" severity="info" severity="contrast" routerLink="todos" />
    }
    <p-button icon="pi pi-sign-out" (click)="logout()" severity="contrast" label="bye"/>
 </p-toolbar>
 <router-outlet/>
 
-<!-- SideBar -->
 <div class="card flex justify-left">
    <p-drawer [(visible)]="sidebarVisible" 
    header="Mes listes">
-   <p-button icon="pi pi-plus" (onClick)="addCart()"/>
+
+   <div class="justify:flex; align-items:center;">
+      <p-button icon="pi pi-plus" (onClick)="addCart()"/>
+      <p-button icon="pi pi-minus" (onClick)="removeCart()" severity="danger"/>
+   </div>
 
    <p-listbox 
    [(ngModel)]="_state.selectedCart" 
    [options]="_state._carts()" 
-   optionLabel="name" [checkmark]="true" [highlightOnSelect]="false" class="w-full md:w-55"
+   (onChange)="selectCart($event.value)"
+   optionLabel="name" 
+   [checkmark]="false" 
+   [highlightOnSelect]="true" 
+   class="w-full md:w-55"
    />
-
-   <!-- @for(x of _state.mycars(); track x.numero)
-   {
-      <p>{{x.numero}}-{{x.name}}</p>
-   }
-   @for(x of _state._carts() ;track x.numero)
-   {
-      <p>{{x.numero}}-{{x.name}}</p>
-   } -->
    </p-drawer>
 </div>

@@ -13,10 +13,12 @@ export const cartResolver: ResolveFn<CartResolverData> = (route, state) => {
   const username: string = route.paramMap.get('username')!;
   return forkJoin({
     carts: cartClient.FetchCarts(),
-    products: productsClient.FetchProducts(),
-  }) .pipe<CartResolverData>(map(res => ({ username:username, carts: res.carts, products: res.products })));
+    products: productsClient.FetchProducts()
+  })
+    .pipe<CartResolverData>(map(res => (
+    { username: username, carts: res.carts, products: res.products }
+  )));
 }
-
 
 export interface CartResolverData{
   username: string;

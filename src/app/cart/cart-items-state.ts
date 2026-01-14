@@ -19,12 +19,8 @@ export class StateMachine {
   
   
   #carts= signal<Cart[]>([]);
-  public cartnumber = linkedSignal({
-    source: this.#carts,
-    computation:()=>0,
-  });
-  public mycars = computed(this.#carts);
-  public readonly _carts = computed(() => this.mycars()
+  
+  public readonly _carts = computed(()=>this.#carts()
     .map<CartDisplay>(c => { return { numero: c.numero, name: c.name, description: c.description, count: c.items.length } })
   );
   public readonly selectedCart = linkedSignal({
@@ -33,10 +29,10 @@ export class StateMachine {
   })
 
   public cartItems = linkedSignal({
-    source:this.#carts,
+    source:this.selectedCart,
     computation:()=>{
       const carts = this.#carts();
-      const numero = this.cartnumber();
+      const numero = this.selectedCart().numero;
       const cart = carts.find(c=>c.numero===numero);
       
       if (!cart || !cart.items) return [];
@@ -60,7 +56,7 @@ export class StateMachine {
   public AddItem(item: CartItem)
   {
     this.#carts.update(carts => {
-      const numero = this.cartnumber();
+      const numero = this.selectedCart().numero;
       return carts.map((cart: Cart) => cart.numero === numero
       ? { ...cart, items: [...cart.items, item] }
       : { ...cart });

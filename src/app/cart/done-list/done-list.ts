@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, inject,  signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CartClient } from '@cart/cart-client';
@@ -7,13 +7,10 @@ import { CartItemsClient } from '@cart/cart-items-client';
 import { StateMachine } from '@cart/cart-items-state';
 import { FormAddCartItem, itemForm } from '@cart/form-add-cart-item/form-add-cart-item';
 import { CartItem } from '@viewmodels/CartItem';
-import { Product } from '@viewmodels/Product';
 import { unit } from '@viewmodels/unit';
-import { ProductsClient } from 'app/products/products-client';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'mnd-done-list',
@@ -25,14 +22,14 @@ import { tap } from 'rxjs';
 export class DoneList {
   
   protected _state = inject(StateMachine);
-
-  private _productsClient = inject(ProductsClient);
   protected _cartItemClient = inject(CartItemsClient);
   
   
   protected updatingItem= signal<itemForm>({namen:'',quantity:1,unity:unit.null})
-  protected addFormVisible=signal( false);
-  protected items = computed(() => this._state.cartItems().filter(x => x.isdone == true).sort((a,b)=>a.product.name.localeCompare(b.product.name)));
+  protected addFormVisible=signal(false);
+  protected items = computed(() => this._state.cartItems()
+    .filter(x => x.isdone == true)
+    .sort((a, b) => a.product.name.localeCompare(b.product.name)));
   
   
   protected addItemSubmit($event: itemForm) :void{

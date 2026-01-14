@@ -26,10 +26,9 @@ export class TodoList {
 
   protected _cartItemClient = inject(CartItemsClient);
   protected _state = inject(StateMachine);
-  protected todoItems = computed(() => this._state.cartItems().filter(x => x.isdone == false));
-  
-  protected addFormVisible=signal(false);
 
+  protected todoItems = computed(() => this._state.cartItems().filter(x => x.isdone == false));
+  protected addFormVisible=signal(false);
   protected updatingItem= signal<itemForm>({namen:'',quantity:1,unity:unit.null})
   protected updateFormVisible =signal(false);
   
@@ -37,7 +36,8 @@ export class TodoList {
   
   protected SubmitFormAdd($event: itemForm): void{
     const item = this._cartItemClient.BuildCartItem($event.namen, $event.quantity, $event.unity,false);
-    this._cartItemClient.AddItem(item).subscribe(this.ob);
+    this._cartItemClient.AddItem(item)
+      .subscribe(this.ob);
   }
 
   protected ShowFormUpdate(item: CartItem) :void {

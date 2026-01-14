@@ -1,4 +1,5 @@
-[{
+[
+  {
   "/mymandado/api": {
     "target": "http://93.127.202.223:5003/",
     "secure": true,
@@ -17,6 +18,7 @@
     }
   }
 },
+
 {
   "/mymandado/api": {
     "target": "http://localhost:5000/",
@@ -26,4 +28,5 @@
       "^/mymandado/api":"/api"
     }
   }
-  }]
+  }
+]

@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Cart } from "@viewmodels/Cart";
-import { map, Observable, tap } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { StateMachine } from "./cart-items-state";
-import { CartItem } from "@viewmodels/CartItem";
 
 @Injectable()
 export class CartClient {
@@ -18,4 +17,8 @@ export class CartClient {
       return this._http.post<Cart>(this._urlCart+`/${this._state._carts().length}`,{name})
       .pipe(tap(cart => this._state.PushCart(cart)));
    } 
+   public RemoveCart(numero: number) {
+      ///Todo: 
+      return this._http.delete<void>(this._urlCart + `/${numero}`);
+   }
 }

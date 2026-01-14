@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { MyMandado } from '../my-mandado-page/my-mandado';
 import { Notfound } from 'app/navigation/notfound/notfound';
 import { Login } from 'app/authentication/login-page/login';
 import { loginGuard } from 'app/navigation/login-guard';
@@ -14,7 +13,8 @@ export const routes: Routes = [
    {path:'', redirectTo:'login', pathMatch:'full'},
    {
       path: 'mymandado/:username',
-      loadComponent: () => import('app/my-mandado-page/my-mandado').then(m => m.MyMandado),
+      loadComponent: () => import('app/my-mandado-page/my-mandado')
+                           .then(m => m.MyMandado),
       canActivate:[loginGuard],
       providers:[CartClient,ProductsClient],
       resolve: { cartitems: cartResolver },

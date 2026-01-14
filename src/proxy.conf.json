@@ -1,6 +1,6 @@
 {
   "/mymandado/api": {
-    "target": "https://localhost:7072",
+    "target": "https://localhost:7072/",
     "secure": false,
     "changeOrigin":false,
     "pathRewrite":{

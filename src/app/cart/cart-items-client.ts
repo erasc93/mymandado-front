@@ -8,9 +8,6 @@ import { unit } from '@viewmodels/unit';
 
 @Injectable()
 export class CartItemsClient {
-  // BuildCartItem(namen: string, quantity: number, unity: string) {
-  //   throw new Error('Method not implemented.');
-  // }
   public BuildCartItem(name: string, quantity: number, u: string, isdone: boolean): CartItem
   {
     const item :CartItem= 
@@ -49,7 +46,7 @@ export class CartItemsClient {
     .pipe(tap(() => this._state.RemoveItem(item)));
   }
   public UpdateItem(item: CartItem): Observable<void>{
-    return this._http.put<void>(this._urlCartItems + `/${this._state.cartnumber()}`, item)
+    return this._http.put<void>(this._urlCartItems + `/${this._state.selectedCart().numero}`, item)
     .pipe(
       tap(() => {
         this._state.UpdateItem({...item });
