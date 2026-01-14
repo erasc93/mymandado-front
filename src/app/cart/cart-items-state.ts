@@ -1,4 +1,4 @@
-import { computed, Injectable, linkedSignal, signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Cart } from '@viewmodels/Cart';
 import { Product } from '@viewmodels/Product';
 import { CartItem } from 'app/viewmodels/CartItem';
@@ -21,61 +21,82 @@ export class StateMachine {
   #carts= signal<Cart[]>([]);
   
   public readonly _carts = computed(()=>this.#carts()
-    .map<CartDisplay>(c => { return { numero: c.numero, name: c.name, description: c.description, count: c.items.length } })
+    .map<CartDisplay>(c => {
+      return {
+        id: c.id,
+        userid: c.userid,
+        numero: c.numero,
+        name: c.name,
+        description: c.description,
+        count: c.items?.length ?? 0
+      };
+    })
   );
-  public readonly selectedCart = linkedSignal({
-    source: this._carts,
-    computation:()=>this._carts()[0]
-  })
+  public readonly selectedCart = signal<CartDisplay | null>(null);
 
-  public cartItems = linkedSignal({
-    source:this.selectedCart,
-    computation:()=>{
-      const carts = this.#carts();
-      const numero = this.selectedCart().numero;
-      const cart = carts.find(c=>c.numero===numero);
-      
-      if (!cart || !cart.items) return [];
-      return [...cart.items].sort((a, b) => a.product.name.localeCompare(b.product.name));
-    }
+  public cartItems = computed(() => {
+    const selected = this.selectedCart();
+    if (!selected) return [];
+    const carts = this.#carts();
+    const cart = carts.find(c => c.id === selected.id);
+    
+    if (!cart || !cart.items) return [];
+    return [...cart.items].sort((a, b) => a.product.name.localeCompare(b.product.name));
   })
 
   public UpdateItem(item: CartItem)
   {
-    this.cartItems.update((items: CartItem[]) => [...items.filter(x => x.product.id != item.product.id), item ]);
+    this.updateSelectedCartItems((items: CartItem[]) => [
+      ...items.filter(x => x.id != item.id),
+      item
+    ]);
   }
   
   
   public SetCarts(carts: Cart[]) {
     this.#carts.set([...carts]);
+    this.syncSelectedCart();
   }
   public PushCart(carts: Cart) {
     this.#carts.set([...this.#carts(),carts]);
+    this.syncSelectedCart();
   }
 
   public AddItem(item: CartItem)
   {
-    this.#carts.update(carts => {
-      const numero = this.selectedCart().numero;
-      return carts.map((cart: Cart) => cart.numero === numero
-      ? { ...cart, items: [...cart.items, item] }
-      : { ...cart });
-    });
+    this.updateSelectedCartItems((items: CartItem[]) => [...items, item]);
   }
   public RemoveItem(item: CartItem)
   {
-    this.cartItems.update((items: CartItem[]) => [...items.filter(x => x.product.id != item.product.id) ]);
-    // this.cartItems.update((carts:CartItem[]) => {
-    //   const numero = this.cartnumber();
-    //   return carts.map((cart: Cart) => cart.numero === numero
-    //   ? { ...cart, items: [...cart.items.filter(t => t.id != item.id)] }
-    //   : { ...cart });
-    // });
+    this.updateSelectedCartItems((items: CartItem[]) => items.filter(x => x.id != item.id));
   }
   
   
   
   public isloading= signal(false);
+
+  private updateSelectedCartItems(updater: (items: CartItem[]) => CartItem[]): void {
+    const selected = this.selectedCart();
+    if (!selected) return;
+    const cartId = selected.id;
+    this.#carts.update(carts => carts.map((cart: Cart) => cart.id === cartId
+      ? { ...cart, items: updater(cart.items ?? []) }
+      : { ...cart }
+    ));
+    this.syncSelectedCart();
+  }
+
+  private syncSelectedCart(): void {
+    const carts = this._carts();
+    const current = this.selectedCart();
+    if (carts.length === 0) {
+      if (current !== null) this.selectedCart.set(null);
+      return;
+    }
+
+    const match = current ? carts.find(c => c.id === current.id) : null;
+    this.selectedCart.set(match ?? carts[0]);
+  }
   
   // private Sort(items: any[]) {
   //   return [...items].sort((a, b) => a.name.localeCompare(b.name));
@@ -83,6 +104,8 @@ export class StateMachine {
 }
 
 export interface CartDisplay{
+  id: number;
+  userid: number;
   numero: number;
   name: string;
   description: string;

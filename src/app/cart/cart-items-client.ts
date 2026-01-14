@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StateMachine } from './cart-items-state';
 import { CartItem } from 'app/viewmodels/CartItem';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, throwError } from 'rxjs';
 import { Product } from '@viewmodels/Product';
 import { unit } from '@viewmodels/unit';
 
@@ -38,15 +38,27 @@ export class CartItemsClient {
   private _state = inject(StateMachine);
   
   public AddItem(item: CartItem) :Observable<CartItem>{
-    return this._http.post<CartItem>(this._urlCartItems, item)
+    const selected = this._state.selectedCart();
+    if (!selected) {
+      return throwError(() => new Error('No cart selected'));
+    }
+    return this._http.post<CartItem>(`${this._urlCartItems}/cart/${selected.id}`, item)
     .pipe( tap((it:CartItem)=>this._state.AddItem(it)))
   }
   public RemoveFrmListItem(item: CartItem) :Observable<void>{
-    return this._http.delete<void>(`${this._urlCartItems}/${item.id}`)
+    const selected = this._state.selectedCart();
+    if (!selected) {
+      return throwError(() => new Error('No cart selected'));
+    }
+    return this._http.delete<void>(`${this._urlCartItems}/cart/${selected.id}/${item.id}`)
     .pipe(tap(() => this._state.RemoveItem(item)));
   }
   public UpdateItem(item: CartItem): Observable<void>{
-    return this._http.put<void>(this._urlCartItems + `/${this._state.selectedCart().numero}`, item)
+    const selected = this._state.selectedCart();
+    if (!selected) {
+      return throwError(() => new Error('No cart selected'));
+    }
+    return this._http.put<void>(`${this._urlCartItems}/cart/${selected.id}`, item)
     .pipe(
       tap(() => {
         this._state.UpdateItem({...item });

@@ -1,4 +1,4 @@
-import { Component,  inject,   signal } from '@angular/core';
+import { Component,  inject,   model, signal } from '@angular/core';
 import { FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterOutlet, RouterLinkWithHref, NavigationEnd } from '@angular/router';
@@ -46,10 +46,33 @@ import { ListboxModule } from 'primeng/listbox';
       .subscribe({ error: e => console.error(e) });
     }
     protected removeCart() {
-      const numero = this._state.selectedCart().numero
-      this._cartClient.RemoveCart( numero)
+      const selected = this._state.selectedCart();
+      if (!selected) return;
+      this._cartClient.RemoveCart(selected.id)
       .subscribe({ error: e => console.error(e) });
     } 
+
+    protected shareVisible = signal(false);
+    protected shareUsername = model<string>('');
+
+    protected openShare() {
+      this.shareUsername.set('');
+      this.shareVisible.set(true);
+    }
+    protected cancelShare() {
+      this.shareVisible.set(false);
+    }
+    protected submitShare() {
+      const selected = this._state.selectedCart();
+      const username = this.shareUsername().trim();
+      if (!selected || !username) return;
+
+      this._cartClient.ShareCart(selected.id, username)
+        .subscribe({
+          next: () => this.shareVisible.set(false),
+          error: e => console.error(e)
+        });
+    }
     
     selectCart(event:any) {
       console.log('selectCart', event);

@@ -15,10 +15,25 @@
    <p-drawer [(visible)]="sidebarVisible" 
    header="Mes listes">
 
-   <div class="justify:flex; align-items:center;">
-      <p-button icon="pi pi-plus" (onClick)="addCart()"/>
-      <p-button icon="pi pi-minus" (onClick)="removeCart()" severity="danger"/>
+   <div class="cart-actions">
+      <div class="cart-actions__left">
+         <p-button icon="pi pi-plus" (onClick)="addCart()"/>
+         <p-button icon="pi pi-share-alt" (onClick)="openShare()" severity="info"/>
+      </div>
+      <div class="cart-actions__right">
+         <p-button icon="pi pi-trash" (onClick)="removeCart()" severity="danger"/>
+      </div>
    </div>
+
+   @if (shareVisible()) {
+      <div class="cart-share">
+         <input pInputText type="text" placeholder="Utilisateur" [(ngModel)]="shareUsername" />
+         <div class="cart-share__actions">
+            <p-button label="Partager" (onClick)="submitShare()" />
+            <p-button label="Annuler" severity="secondary" (onClick)="cancelShare()" />
+         </div>
+      </div>
+   }
 
    <p-listbox 
    [(ngModel)]="_state.selectedCart" 
