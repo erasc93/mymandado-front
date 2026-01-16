@@ -1,0 +1,21 @@
+@if (isvisible()) {
+  <div class="page-container">
+    <form class="centered-form" #cartForm="ngForm" (ngSubmit)="SubmitForm(cartForm)">
+      <div class="form-row">
+        <label for="cart-name">Nom du cart</label>
+        <input
+          id="cart-name"
+          name="name"
+          type="text"
+          pInputText
+          required
+          [(ngModel)]="item().name"
+        />
+      </div>
+      <div class="form-buttons">
+        <p-button label="Annuler" severity="warn" (click)="Cancel()"></p-button>
+        <p-button type="submit" label="Enregistrer" severity="success"></p-button>
+      </div>
+    </form>
+  </div>
+}

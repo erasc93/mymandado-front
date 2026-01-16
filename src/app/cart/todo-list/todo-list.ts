@@ -77,9 +77,20 @@ export class TodoList {
     this.updateFormVisible.set(false);
   }
   
-  protected SetFilter(mode: 'all' | 'done' | 'remaining'): void {
+  private SetFilter(mode: 'all' | 'done' | 'remaining'): void {
     this.filterMode.set(mode);
   }
+  protected SwitchFilter(): void{
+    if (this.isFilter) {
+      this.SetFilter('all');
+      this.isFilter = false;
+    }
+    else {
+      this.SetFilter('remaining');
+      this.isFilter = true;
+    }
+  }
+  protected isFilter = false;
 
   protected ToggleItemDone(item: CartItem) :void{
     item.isdone = !item.isdone;

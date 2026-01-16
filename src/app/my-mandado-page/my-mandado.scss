@@ -103,6 +103,37 @@
   gap: 0.5rem;
 }
 
+.cart-rename-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin-bottom: 0.5rem;
+}
+
+.cart-rename-form__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-rename-form__label {
+  min-width: 110px;
+  font-weight: 600;
+}
+
+.cart-rename-form__row input {
+  flex: 1;
+}
+
+.cart-rename-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
 .cart-name,
 .cart-rename {
   display: flex;
@@ -113,7 +144,51 @@
 
 .cart-name input,
 .cart-rename input {
-  flex: 1;
+  flex: 0.8;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.cart-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+}
+
+.cart-row--active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.cart-row__label {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cart-row__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-row__actions {
+  display: flex;
+  align-items: center;
 }
 
 .cart-templates {
@@ -141,5 +216,14 @@
   .quantity-group input,
   .quantity-group select {
     width: 100%;
+  }
+
+  .cart-rename-form__row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cart-rename-form__label {
+    min-width: auto;
   }
 }

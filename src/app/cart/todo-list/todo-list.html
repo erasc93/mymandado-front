@@ -15,9 +15,14 @@
    <div class=table-container>
       <div class="table-toolbar">
          <div class="table-toolbar__filters">
-            <p-button label="Tout" [outlined]="filterMode() !== 'all'" (onClick)="SetFilter('all')" />
+            @if(this.isFilter){
+               <p-button icon ="pi pi-filter-slash"  (onClick)="SwitchFilter()" />
+            }@else{
+               <p-button icon ="pi pi-filter"  (onClick)="SwitchFilter()" />
+            }
+            <!-- <p-button label="Tout" [outlined]="filterMode() !== 'all'" (onClick)="SetFilter('all')" />
             <p-button label="Pris" [outlined]="filterMode() !== 'done'" (onClick)="SetFilter('done')" />
-            <p-button label="Restants" [outlined]="filterMode() !== 'remaining'" (onClick)="SetFilter('remaining')" />
+            <p-button label="Restants" [outlined]="filterMode() !== 'remaining'" (onClick)="SetFilter('remaining')" /> -->
          </div>
          <p-button  icon="pi pi-plus" 
             (click)="addFormVisible.set(true)" 

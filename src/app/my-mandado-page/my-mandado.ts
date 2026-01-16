@@ -1,4 +1,4 @@
-import { Component,  effect, inject, model, signal } from '@angular/core';
+import { Component, inject, model, signal } from '@angular/core';
 import { FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterOutlet, RouterLinkWithHref, NavigationEnd } from '@angular/router';
@@ -6,21 +6,23 @@ import { filter, map   } from 'rxjs';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { StateMachine } from '@cart/cart-items-state';
+import { CartDisplay, StateMachine } from '@cart/cart-items-state';
 import { CartClient } from '@cart/cart-client';
 import { CartItemsClient } from '@cart/cart-items-client';
 import { CartRealtimeService } from '@cart/cart-realtime.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DrawerModule } from 'primeng/drawer';
 import { ToolbarModule } from 'primeng/toolbar';
-import { ListboxModule } from 'primeng/listbox';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 import { unit } from '@viewmodels/unit';
+import type { CartEditForm } from '@cart/form-update-cart/form-update-cart';
 
 @Component({
   selector: 'mnd-my-mandado',
   providers:[CartClient, CartItemsClient, CartRealtimeService],
   imports: [CheckboxModule, CommonModule, FormsModule, ButtonModule, InputTextModule, RouterOutlet,RouterLinkWithHref, 
-    DrawerModule,ToolbarModule,ListboxModule],
+    DrawerModule,ToolbarModule, MenuModule],
     templateUrl: './my-mandado.html',
     styleUrl: './my-mandado.scss',
   })
@@ -33,12 +35,19 @@ import { unit } from '@viewmodels/unit';
     private _cartItemClient = inject(CartItemsClient);
 
     protected newCartName = model<string>('');
-    protected renameCartName = model<string>('');
-    protected templateVisible = signal(false);
-    private _syncRename = effect(() => {
-      const selected = this._state.selectedCart();
-      this.renameCartName.set(selected?.name ?? '');
-    });
+    protected cartEditVisible = signal(false);
+    protected cartEditForm = signal<CartEditForm>({ name: '' });
+    protected cartEditTargetId = signal<number | null>(null);
+    protected cartMenuItems(cart: CartDisplay): MenuItem[] {
+      return [
+        {
+          label: 'Renommer',
+          icon: 'pi pi-pencil',
+          command: () => this.openRenameForm(cart)
+        }
+      ];
+    }
+    
 
     protected cartTemplates: CartTemplate[] = [
       {
@@ -134,38 +143,44 @@ import { unit } from '@viewmodels/unit';
         });
     }
 
-    protected toggleTemplates() {
-      this.templateVisible.set(!this.templateVisible());
-    }
+    protected renameCart(cartId: number, name: string) {
+      const trimmed = name.trim();
+      if (!trimmed) return;
+      const current = this._state._carts().find(cart => cart.id === cartId);
+      if (current && current.name === trimmed) return;
 
-    protected createFromTemplate(template: CartTemplate) {
-      this._cartClient.AddNew(template.name)
-        .subscribe({
-          next: cart => {
-            this.templateVisible.set(false);
-            this.newCartName.set('');
-            this._state.SelectCartById(cart.id);
-            template.items.forEach(item => {
-              const cartItem = this._cartItemClient.BuildCartItem(item.name, item.quantity, item.unit, false);
-              this._cartItemClient.AddItem(cartItem).subscribe({ error: e => console.error(e) });
-            });
-          },
-          error: e => console.error(e)
-        });
-    }
-
-    protected renameCart() {
-      const selected = this._state.selectedCart();
-      if (!selected) return;
-      const name = this.renameCartName().trim();
-      if (!name || name === selected.name) return;
-
-      this._cartClient.RenameCart(selected.id, name)
+      this._cartClient.RenameCart(cartId, trimmed)
         .subscribe({ error: e => console.error(e) });
     }
+
+    protected submitCartEdit(update: CartEditForm): void {
+      const cartId = this.cartEditTargetId();
+      const trimmed = update.name.trim();
+      if (cartId === null || !trimmed) return;
+      this.renameCart(cartId, trimmed);
+      this.cartEditTargetId.set(null);
+      this.cartEditForm.set({ name: '' });
+      this.cartEditVisible.set(false);
+    }
+
+    protected cancelCartEdit(): void {
+      this.cartEditTargetId.set(null);
+      this.cartEditForm.set({ name: '' });
+      this.cartEditVisible.set(false);
+    }
+
+    private openRenameForm(cart: CartDisplay): void {
+      this.shareVisible.set(false);
+      this.cartEditForm.set({ name: cart.name });
+      this.cartEditTargetId.set(cart.id);
+      this.cartEditVisible.set(true);
+    }
     
-    selectCart(event:any) {
-      console.log('selectCart', event);
+    selectCart(cart: CartDisplay) {
+      this._state.SelectCartById(cart.id);
+      this.cartEditVisible.set(false);
+      this.shareVisible.set(false);
+      console.log('selectCart', cart);
     } 
     
     protected sidebarVisible = false;
