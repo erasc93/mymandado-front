@@ -1,19 +1,17 @@
 
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { item } from '@primeuix/themes/aura/breadcrumb';
 import { Product } from '@viewmodels/Product';
 import { StateMachine } from '@cart/cart-items-state';
 import { Observable, tap } from 'rxjs';
+import { mndapi } from 'app/constants/constants';
 
 
 @Injectable()
 export class ProductsClient{
-  
-  private _urlProducts = 'mymandado/api/products';
+  private _urlProducts = `${mndapi}/products`;
   private _http = inject(HttpClient);
   private _state = inject(StateMachine);
-  public isLoading = signal(false); 
   // --- --- ---
   public FetchProducts ():Observable<Product[]> {
     return this._http.get<Product[]>(this._urlProducts)
@@ -32,9 +30,6 @@ export class ProductsClient{
     return this._http.post<Product>(this._urlProducts, product)
     .pipe(tap(p => this._state.AddProduct(p)
   ))
-}
-private RefreshState() {
-  // refresh products state machine;
 }
 }
 

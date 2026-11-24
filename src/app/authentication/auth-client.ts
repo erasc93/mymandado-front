@@ -2,27 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject,  Observable,  tap } from 'rxjs';
 import { tokentype } from './tokentype';
+import { mndapi } from 'app/constants/constants';
 
 @Injectable({providedIn:'root'})
 export class AuthClient {
   private _http = inject(HttpClient);
-
+  
   private _loggedIn$ = new BehaviorSubject<boolean>(false);
   public readonly loggedIn$:Observable<boolean> = this._loggedIn$.asObservable();
-  private readonly apiurl = 'mymandado/api/users';
   public FetchUsernames(): Observable<string[]> {
-    return this._http.get<string[]>(this.apiurl);
+    return this._http.get<string[]>(`${mndapi}/users`);
   }
   Authenticate(username: string , password: string|null) : Observable<tokentype>{
-    const body = { username:username, password:password };
-    return this._http.post<tokentype>(`${this.apiurl}/login`, body)
-      .pipe(
-      tap(x => this.SetToken(x.token)),
-      tap(token=>this._loggedIn$.next(true)),
+    const output: Observable<tokentype>
+    = this._http.post<tokentype>(`${mndapi}/users/login`,  { username, password } )
+    .pipe(
+      tap((tokeninfo:tokentype) => sessionStorage.setItem('token', tokeninfo.token)),
+      tap(()=>this._loggedIn$.next(true)),
     );
-  }
-  private SetToken(token: string) {
-    sessionStorage.setItem('token', token);
+    
+    return output;
   }
 }
 

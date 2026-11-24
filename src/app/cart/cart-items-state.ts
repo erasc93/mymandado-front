@@ -12,16 +12,15 @@ export class StateMachine {
   public products= computed(()=>this.#products());
   
   public SetProducts(products:Product[]) { this.#products.set([...products]); }
-  public AddProduct(product:Product) { this.#products.update(t=>[...t,product]); }
-  public DeleteProduct(product:Product) { this.#products.update(t=>[...t.filter(p=>p.id!=product.id)]); }
-  public Update(product: Product) { this.#products.update(t => [...t.filter(p => p.id != product.id), product]); }
+  public AddProduct(updatedProduct:Product) { this.#products.update((products:Product[])=>[...products,updatedProduct]); }
+  public DeleteProduct(deletedProduct:Product) { this.#products.update((products:Product[])=>[...products.filter(p=>p.id!=deletedProduct.id)]); }
+  public Update(updatedProduct: Product) { this.#products.update((products:Product[]) => [...products.filter(p => p.id != updatedProduct.id), updatedProduct]); }
   
   
   
   #carts= signal<Cart[]>([]);
   
-  public readonly _carts = computed(()=>this.#carts()
-    .map<CartDisplay>(c => {
+  public readonly _carts = computed(()=>this.#carts().map<CartDisplay>(c => {
       return {
         id: c.id,
         userid: c.userid,
@@ -104,6 +103,7 @@ export class StateMachine {
   private syncSelectedCart(): void {
     const carts = this._carts();
     const current = this.selectedCart();
+
     if (carts.length === 0) {
       if (current !== null) this.selectedCart.set(null);
       return;
@@ -112,10 +112,6 @@ export class StateMachine {
     const match = current ? carts.find(c => c.id === current.id) : null;
     this.selectedCart.set(match ?? carts[0]);
   }
-  
-  // private Sort(items: any[]) {
-  //   return [...items].sort((a, b) => a.name.localeCompare(b.name));
-  // }
 }
 
 export interface CartDisplay{

@@ -1,6 +1,6 @@
 {
   "/mymandado/api": {
-    "target": "https://localhost:7072/",
+    "target": "http://back:5000",
     "secure": false,
     "changeOrigin":false,
     "pathRewrite":{
@@ -8,7 +8,7 @@
     }
   },
   "/mymandado/hubs": {
-    "target": "https://localhost:7072/",
+    "target": "http://back:5000",
     "secure": false,
     "changeOrigin": false,
     "ws": true,

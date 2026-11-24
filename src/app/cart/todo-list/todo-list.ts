@@ -17,7 +17,7 @@ import { FormUpdateCartItem } from "@cart/form-update-cart-item/form-update-cart
 @Component({
   selector: 'mnd-todo-list',
   providers:[CartItemsClient,CartClient], // used for updating product
-  imports: [CheckboxModule, FormAddCartItem, CommonModule, FormsModule, ButtonModule, InputTextModule, FormUpdateCartItem, RouterLink],
+  imports: [CheckboxModule, FormAddCartItem, CommonModule, FormsModule, ButtonModule, InputTextModule, FormUpdateCartItem ],
   templateUrl: './todo-list.html',
   styleUrl: './todo-list.scss',
 })

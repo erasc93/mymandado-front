@@ -8,18 +8,36 @@ import { TodoList } from '@cart/todo-list/todo-list';
 import { DoneList } from '@cart/done-list/done-list';
 import { CartClient } from '@cart/cart-client';
 import { ProductsClient } from 'app/products/products-client';
+import { Demo } from 'dev/demo/demo';
+import { devDataResolver } from 'dev/dev-data-resolver';
 
 export const routes: Routes = [
-   {path:'', redirectTo:'login', pathMatch:'full'},
+   {
+      path: '', redirectTo: 'dev/visit', pathMatch: 'full',
+      // resolve:[devDataResolver]
+   },
+   // {path:'', redirectTo:'login', pathMatch:'full'},
+   {
+      path: 'dev/:username',
+      loadComponent: () => import('dev/demo/demo').then(m => m.Demo),
+      resolve: [devDataResolver],
+      children: [
+         {
+            path: '', component: Demo, pathMatch: 'full',
+            providers:[CartClient,ProductsClient],
+            resolve: [cartResolver],
+         },
+      ]
+   },
    {
       path: 'mymandado/:username',
       loadComponent: () => import('app/my-mandado-page/my-mandado')
-                           .then(m => m.MyMandado),
-      canActivate:[loginGuard],
+      .then(m => m.MyMandado),
       providers:[CartClient,ProductsClient],
-      resolve: { cartitems: cartResolver },
+      canActivate:[loginGuard],
+      resolve: { cartResolver },
       children: [
-
+         
          {path:'',redirectTo:'todos',pathMatch:'full'},
          {path:'todos',component:TodoList,pathMatch:'full'},
          {path:'dones',component:DoneList,pathMatch:'full'},
@@ -28,7 +46,8 @@ export const routes: Routes = [
    },
    {
       path: 'login',
-      loadComponent:()=>import('app/authentication/login-page/login').then(m=>m.Login),
+      loadComponent: () => import('app/authentication/login-page/login')
+      .then(m => m.Login),
       children: [
          
          { path: '', component: Login , pathMatch:'full'},

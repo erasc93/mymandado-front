@@ -5,6 +5,7 @@ import { CartItem } from 'app/viewmodels/CartItem';
 import { Observable, tap, throwError } from 'rxjs';
 import { Product } from '@viewmodels/Product';
 import { unit } from '@viewmodels/unit';
+import { mndapi } from 'app/constants/constants';
 
 @Injectable()
 export class CartItemsClient {
@@ -32,7 +33,9 @@ export class CartItemsClient {
     }
     return product;
   }
-  private _urlCartItems = 'mymandado/api/cartitems';
+  private _urlCartItems = `${mndapi}/cartitems`;
+  // private _urlCartItems = 'mymandado/api/cartitems';
+  // private _urlCartItems = 'https://wa-cleeven-prj-azure.azurewebsites.net/api/cartitems';
   private _http = inject(HttpClient);
   
   private _state = inject(StateMachine);

@@ -3,10 +3,13 @@ import { inject, Injectable } from "@angular/core";
 import { Cart } from "@viewmodels/Cart";
 import { Observable, tap } from "rxjs";
 import { StateMachine } from "./cart-items-state";
+import { mndapi } from "app/constants/constants";
 
 @Injectable()
 export class CartClient {
-   private _urlCart = 'mymandado/api/cart';
+   // private _urlCart = 'mymandado/api/cart';
+   // private _urlCart = 'https://wa-cleeven-prj-azure.azurewebsites.net/api/cart';
+   private _urlCart = `${mndapi}/cart`;
   private _http = inject(HttpClient);
   private _state= inject(StateMachine);
   public FetchCarts() :Observable<Cart[]>{

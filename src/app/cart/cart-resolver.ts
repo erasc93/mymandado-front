@@ -1,23 +1,22 @@
-import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { forkJoin, map, of } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { CartClient } from './cart-client';
 import { Cart } from '@viewmodels/Cart';
 import { Product } from '@viewmodels/Product';
 import { ProductsClient } from 'app/products/products-client';
 
-export const cartResolver: ResolveFn<CartResolverData> = (route, state) => {
+export const cartResolver: ResolveFn<CartResolverData> = (route) => {
   const cartClient = inject(CartClient);
   const productsClient = inject(ProductsClient);
-  const username: string = route.paramMap.get('username')!;
-  return forkJoin({
+  
+  const output =forkJoin({
+    username:route.paramMap.get('username')!,
     carts: cartClient.FetchCarts(),
     products: productsClient.FetchProducts()
-  })
-    .pipe<CartResolverData>(map(res => (
-    { username: username, carts: res.carts, products: res.products }
-  )));
+  });
+  
+  return output;
 }
 
 export interface CartResolverData{
