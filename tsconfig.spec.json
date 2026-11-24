@@ -6,7 +6,15 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "jasmine"
-    ]
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@services/*": ["app/services/*"],
+      "@models/*": ["app/core/models*"],
+      "@viewmodels/*": ["app/viewmodels/*"],
+      "@components/*": ["app/components/*"],
+      "@cart/*": ["app/cart/*"]
+    }
   },
   "include": [
     "src/**/*.ts"
