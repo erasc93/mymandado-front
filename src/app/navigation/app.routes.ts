@@ -13,7 +13,7 @@ import { devDataResolver } from 'dev/dev-data-resolver';
 
 export const routes: Routes = [
    {
-      path: '', redirectTo: 'dev/visit', pathMatch: 'full',
+      path: '', redirectTo: 'login', pathMatch: 'full',
       // resolve:[devDataResolver]
    },
    // {path:'', redirectTo:'login', pathMatch:'full'},
@@ -51,7 +51,7 @@ export const routes: Routes = [
       children: [
          
          { path: '', component: Login , pathMatch:'full'},
-      ]},
-      {path:'**',component:Notfound}
-   ];
-   
+      ]
+   },
+   {path:'**',component:Notfound}
+];
